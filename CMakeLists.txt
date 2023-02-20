@@ -17,6 +17,8 @@ target_sources( explorer
                     explorer/utils/logging.cpp
                     explorer/core/cscene.cpp
                     explorer/core/bsp/ibsp.cpp
+                    explorer/core/bsp/apex_legends/capexlegendsbsp.cpp
+                    explorer/core/bsp/titanfall/ctitanfallbsp.cpp
 )
 
 # ImGui

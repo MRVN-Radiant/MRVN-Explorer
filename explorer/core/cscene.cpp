@@ -47,10 +47,13 @@ CScene::CScene(const char *filename) {
 
     if( header.version == 29 ) {
         LOG_EXPLORER_INFO("BSP Game: Titanfall 1")
+        this->m_pBsp = std::make_unique<CTitanfallBsp>(filename);
     } else if( header.version == 37 ) {
         LOG_EXPLORER_INFO("BSP Game: Titanfall 2")
+        this->m_pBsp = std::make_unique<CTitanfallBsp>(filename);
     } else if( header.version == 47 ) {
         LOG_EXPLORER_INFO("BSP Game: Apex Legends")
+        this->m_pBsp = std::make_unique<CApexLegendsBsp>(filename);
     } else {
         LOG_EXPLORER_ERROR("Unknown BSP version: {}", header.version)
         ERROR("Unknown BSP version!")
@@ -87,4 +90,68 @@ int CScene::ID() {
 
 std::string CScene::Name() {
     return this->m_szName;
+}
+
+std::string CScene::GetGameName() {
+    return this->m_pBsp->GetGameName();
+}
+
+int CScene::GetBspVersion() {
+    return this->m_pBsp->GetBspVersion();
+}
+
+void CScene::DrawLumpsList( bool hideUnused ) {
+    ImGui::BeginTable( "Lumps", 5, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg );
+    ImGui::TableSetupColumn( "Index" );
+    ImGui::TableSetupColumn( "Name" );
+    ImGui::TableSetupColumn( "Version" );
+    ImGui::TableSetupColumn( "Size" );
+    ImGui::TableSetupColumn( "Inspect" );
+    ImGui::TableHeadersRow();
+
+    int i = 0;
+    for( LumpDef_t &lump : this->m_pBsp->GetLumps() ) {
+        if( lump.gameVersion != -1 && this->m_pBsp->GetBspVersion() != lump.gameVersion ) {
+            lump.name = "Unused";
+            lump.version = -1;
+        }
+        
+        if( hideUnused && lump.version == -1 ) {
+            i++;
+            continue;
+        }
+
+        ImGui::TableNextColumn();
+        ImGui::Text( "%i", i);
+        ImGui::TableNextColumn();
+        ImGui::Text( "%s", lump.name );
+        ImGui::TableNextColumn();
+        ImGui::Text( "%i", lump.version );
+        ImGui::TableNextColumn();
+        ImGui::Text( "%i", lump.size );
+        ImGui::TableNextColumn();
+        if( !lump.canInspect ) { ImGui::BeginDisabled(); }
+        ImGui::PushID(i);
+        ImGui::Button( "Inspect" );
+        ImGui::PopID();
+        if( !lump.canInspect ) { ImGui::EndDisabled(); }
+        ImGui::TableNextRow();
+
+        i++;
+    }
+    ImGui::EndTable();
+}
+
+void CScene::DrawViewportOptions() {
+    static int id = 0;
+    static int lastID = -1;
+    for( DrawableType_t &type : this->m_pBsp->GetDrawableTypes() ) {
+        ImGui::RadioButton( type.name, &id, type.id );
+    }
+
+    if( lastID != id ) {
+        LOG_EXPLORER_INFO("Viewport option changed!")
+    }
+
+    lastID = id;
 }

@@ -4,6 +4,9 @@
 #include <vector>
 #include <string>
 
+#include "../../utils/logging.hpp"
+
+
 // File structs
 struct LumpEntry_t {
     int32_t offset;
@@ -22,9 +25,12 @@ struct Header_t {
 
 // Our lump definition for UI
 struct LumpDef_t {
-    const char *name;
-    std::size_t size;
+    const char    *name;
+    int32_t        size;
     std::size_t entries;
+    int32_t     version;
+    int32_t gameVersion;
+    bool     canInspect;
 };
 
 struct DrawableType_t {
@@ -34,10 +40,15 @@ struct DrawableType_t {
 
 class IBsp {
     public:
+        Header_t m_header;
+
         IBsp(const char *filename);
         ~IBsp();
+
+        int GetBspVersion();
+
         virtual std::string                 GetGameName() = 0;
         virtual std::vector<LumpDef_t>      GetLumps() = 0;
-        virtual void                        DrawLumpInspectWindow() = 0;
+        virtual void                        DrawLumpInspectWindow( int index ) = 0;
         virtual std::vector<DrawableType_t> GetDrawableTypes() = 0;
 };

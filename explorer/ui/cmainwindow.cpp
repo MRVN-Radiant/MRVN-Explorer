@@ -181,6 +181,14 @@ void CMainWindow::DrawFileInfo() {
 
     if( g_pScene ) {
         ImGui::Text("Name: %s", g_pScene->Name().c_str());
+        ImGui::Text("Game: %s", g_pScene->GetGameName().c_str());
+        ImGui::SameLine(200);
+        ImGui::Text("Version: %i", g_pScene->GetBspVersion());
+
+        static bool hideUnused = true;
+        ImGui::Checkbox("Hide Unused", &hideUnused);
+
+        g_pScene->DrawLumpsList( hideUnused );
     } else {
         ImGui::Text("No file open!");
     }
@@ -193,6 +201,11 @@ void CMainWindow::DrawViewportControl() {
         return;
     
     ImGui::Begin( "Viewport Control", &g_bDrawViewportControlWindow );
+    if( g_pScene ) {
+        g_pScene->DrawViewportOptions();
+    } else {
+        ImGui::Text("No file open!");
+    }
     ImGui::End();
 }
 
