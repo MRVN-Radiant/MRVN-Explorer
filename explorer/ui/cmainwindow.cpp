@@ -40,6 +40,8 @@ CMainWindow::CMainWindow() {
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     LOG_GUI_INFO("ImGui Initilazed")
+
+    this->m_pRenderer = std::make_unique<CRenderer>();
 }
 
 CMainWindow::~CMainWindow() {
@@ -86,6 +88,8 @@ void CMainWindow::Loop() {
         //glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        m_pRenderer->Update(this->m_pWindow);
 
         glfwSwapBuffers(this->m_pWindow);
 

@@ -154,3 +154,7 @@ std::vector<DrawableType_t> CApexLegendsBsp::GetDrawableTypes() {
             { "Meshes",  0 },
         };
 }
+
+void CApexLegendsBsp::SetRendererMeshes( int id ) {
+    LOG_OPENGL_INFO("CApexLegendsBsp::SetRendererMeshes: Set to {}", id)
+}

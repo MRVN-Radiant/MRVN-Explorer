@@ -154,3 +154,9 @@ std::vector<DrawableType_t> CTitanfallBsp::GetDrawableTypes() {
         { "Meshes",  0 },
     };
 }
+
+void CTitanfallBsp::SetRendererMeshes( int id ) {
+    LOG_OPENGL_INFO("CTitanfallBsp::SetRendererMeshes: Set to {}", id)
+
+    
+}

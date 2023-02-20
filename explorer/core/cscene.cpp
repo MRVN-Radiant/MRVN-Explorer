@@ -151,6 +151,7 @@ void CScene::DrawViewportOptions() {
 
     if( lastID != id ) {
         LOG_EXPLORER_INFO("Viewport option changed!")
+        this->m_pBsp->SetRendererMeshes(id);
     }
 
     lastID = id;

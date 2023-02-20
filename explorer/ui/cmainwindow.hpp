@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <memory>
 
 #include <GLFW/glfw3.h>
 
@@ -14,10 +15,13 @@
 
 #include "../core/cscene.hpp"
 
+#include "../renderer/crenderer.hpp"
+
 class CMainWindow {
     private:
-        GLFWwindow *m_pWindow;
-        bool        m_bShouldClose;
+        GLFWwindow                *m_pWindow;
+        bool                       m_bShouldClose;
+        std::unique_ptr<CRenderer> m_pRenderer;
 
         void DrawMenuBar();
         void DrawFileInfo();

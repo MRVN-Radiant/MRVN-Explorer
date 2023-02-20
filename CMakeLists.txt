@@ -19,6 +19,8 @@ target_sources( explorer
                     explorer/core/bsp/ibsp.cpp
                     explorer/core/bsp/apex_legends/capexlegendsbsp.cpp
                     explorer/core/bsp/titanfall/ctitanfallbsp.cpp
+                    explorer/renderer/crenderer.cpp
+                    explorer/renderer/ccamera.cpp
 )
 
 # ImGui
