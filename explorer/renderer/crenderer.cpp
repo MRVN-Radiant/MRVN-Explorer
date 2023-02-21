@@ -37,11 +37,13 @@ void CRenderer::Render(GLFWwindow *window) {
         glUniformMatrix4fv( transLoc, 1, GL_FALSE, glm::value_ptr( g_pCamera->GetViewMatrix() ) );
     }
 
-    glm::fvec3 colors[4] = {
+    glm::fvec3 colors[6] = {
         glm::fvec3(0.5f, 0.9f, 0.9f),
         glm::fvec3(0.6f, 0.9f, 0.5f),
         glm::fvec3(0.8f, 0.5f, 0.9f),
-        glm::fvec3(0.9f, 0.6f, 0.5f)
+        glm::fvec3(0.9f, 0.6f, 0.5f),
+        glm::fvec3(0.7f, 0.8f, 0.3f),
+        glm::fvec3(0.6f, 0.3f, 0.8f)
     };
 
     for( std::size_t i = 0; i < g_vecRenderMehses.size(); i++ ) {
@@ -50,7 +52,7 @@ void CRenderer::Render(GLFWwindow *window) {
         if( !(rm.flags & g_iRenderFlags) )
             continue;
 
-        glm::fvec3 color = colors[i % 4];
+        glm::fvec3 color = colors[i % 6];
         unsigned int colorLoc = glGetUniformLocation( g_vecpShaders[0]->GetID(), "base" );
         glUniform3fv( colorLoc, 1, glm::value_ptr( color ) );
 
