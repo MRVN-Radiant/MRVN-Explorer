@@ -73,6 +73,9 @@ void CMainWindow::Loop() {
 
         this->DrawDebugOverlay();
 
+        if( g_bDrawControlsModal ) { ImGui::OpenPopup("Controls"); g_bDrawControlsModal = false; }
+        this->DrawControlsModal();
+
         if( g_bDrawAboutModal ) { ImGui::OpenPopup("About"); g_bDrawAboutModal = false; }
         this->DrawAboutModal();
 
@@ -147,6 +150,7 @@ void CMainWindow::DrawMenuBar() {
         if (ImGui::BeginMenu("Help"))
         {
             ImGui::MenuItem( "About", NULL, &g_bDrawAboutModal );
+            ImGui::MenuItem( "Controls", NULL, &g_bDrawControlsModal );
             ImGui::Separator();
             if( ImGui::MenuItem("Error test") ) { ERROR( "Test error modal\nSecond line!" ) }
             ImGui::Separator();
@@ -305,6 +309,26 @@ void CMainWindow::DrawDebugOverlay() {
     ImGui::End();
 }
 
+void CMainWindow::DrawControlsModal() {
+    if (ImGui::BeginPopupModal("Controls", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+        ImGui::BeginDisabled();
+        ImGui::Button("W", ImVec2(100, 0));          ImGui::SameLine(120); ImGui::Text("Move forward");
+        ImGui::Button("A", ImVec2(100, 0));          ImGui::SameLine(120); ImGui::Text("Move left");
+        ImGui::Button("S", ImVec2(100, 0));          ImGui::SameLine(120); ImGui::Text("Move backward");
+        ImGui::Button("D", ImVec2(100, 0));          ImGui::SameLine(120); ImGui::Text("Move right");
+        ImGui::Button("Q", ImVec2(100, 0));          ImGui::SameLine(120); ImGui::Text("Move down");
+        ImGui::Button("E", ImVec2(100, 0));          ImGui::SameLine(120); ImGui::Text("Move up");
+        ImGui::Button("LEFT SHIFT", ImVec2(100, 0)); ImGui::SameLine(120); ImGui::Text("Increase movement speed");
+        ImGui::EndDisabled();
+
+        ImGui::Separator();
+
+        if( ImGui::Button("Ok") ) { ImGui::CloseCurrentPopup(); }
+        ImGui::EndPopup();
+    }
+}
+
 void CMainWindow::DrawAboutModal() {
     if (ImGui::BeginPopupModal("About", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
         ImGui::Text("MRVN-Explorer");
@@ -314,7 +338,6 @@ void CMainWindow::DrawAboutModal() {
         ImGui::Text("A respawn .bsp OpenGL explorer.");
 
         if( ImGui::Button("Ok") ) { ImGui::CloseCurrentPopup(); }
-        
         ImGui::EndPopup();
     }
 }

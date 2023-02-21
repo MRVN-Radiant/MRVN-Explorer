@@ -33,6 +33,7 @@ class CMainWindow {
         void DrawDebugOverlay();
 
         void DrawAboutModal();
+        void DrawControlsModal();
         void DrawFileChooserModal();
         void DrawErrorModal();
     public:

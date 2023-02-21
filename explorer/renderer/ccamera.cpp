@@ -57,6 +57,9 @@ void CCamera::Update( GLFWwindow *window, float width, float height ) {
     m_m4ViewMatrix = glm::translate( m_m4ViewMatrix, m_v3Origin );
 
     //
+    if( glfwGetKey( window, GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS )
+        this->m_fSpeed = 100.0f;
+    
     if( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS )
         this->Move( GLFW_KEY_W );
     if( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS )
@@ -70,6 +73,7 @@ void CCamera::Update( GLFWwindow *window, float width, float height ) {
     if( glfwGetKey( window, GLFW_KEY_Q ) == GLFW_PRESS )
         this->Move( GLFW_KEY_Q );
     
+    this->m_fSpeed = 10.0f;
     bool l_bIgnore = false;
 
     static int l_iLastEscState = GLFW_RELEASE;

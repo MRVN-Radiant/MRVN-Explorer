@@ -30,4 +30,5 @@ inline bool g_bDrawViewportControlWindow = true;
 inline bool g_bDrawDemoWindow = false;
 inline bool g_bDrawConsoleWindow = false;
 inline bool g_bDrawDebugOverlay = true;
+inline bool g_bDrawControlsModal = false;
 inline bool g_bDrawAboutModal = false;
