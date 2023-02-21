@@ -169,7 +169,7 @@ void CMainWindow::DrawMenuBar() {
                 if( ImGui::BeginTabItem(scene->Name().c_str(), scene->IsOpen() ) ) {
                     if( g_pScene != scene ) {
                         g_pScene = scene;
-                        g_pScene->UpdateRenderMeshes();
+                        g_pScene->UpdateRenderMeshes(0);
                     }
                     ImGui::EndTabItem();
                 }
@@ -189,7 +189,7 @@ void CMainWindow::DrawMenuBar() {
                 g_pScene = NULL;
                 if( g_vecpScenes.size() != 0 ) {
                     g_pScene = g_vecpScenes.back();
-                    g_pScene->UpdateRenderMeshes();
+                    g_pScene->UpdateRenderMeshes(0);
                 } else {
                     g_pRenderer->Clear();
                 }

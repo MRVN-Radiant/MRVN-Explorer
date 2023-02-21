@@ -19,7 +19,8 @@ class CScene {
         bool m_bOpen;
         bool m_bValid;
 
-        std::unique_ptr<IBsp> m_pBsp;
+        std::unique_ptr<IBsp>    m_pBsp;
+        std::shared_ptr<CCamera> m_pCamera;
     public:
         CScene(const char *filename);
         ~CScene();
@@ -36,7 +37,7 @@ class CScene {
         void DrawLumpsList( bool hideUnused );
         void DrawViewportOptions();
 
-        void UpdateRenderMeshes();
+        void UpdateRenderMeshes( int id );
 };
 
 inline std::vector<std::shared_ptr<CScene>> g_vecpScenes;

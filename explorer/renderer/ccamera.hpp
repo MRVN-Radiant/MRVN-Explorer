@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -19,10 +21,12 @@ class CCamera {
         CCamera();
         ~CCamera();
 
-        void Update( float width, float height );
+        void Update( GLFWwindow *window, float width, float height );
         void Move( int key );
         void Rotate( float dX, float dY );
         void ToggleMouseCapture(GLFWwindow *window);
 
         glm::mat4 GetViewMatrix();
 };
+
+inline std::shared_ptr<CCamera> g_pCamera;

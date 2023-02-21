@@ -18,8 +18,6 @@ CRenderer::CRenderer() {
 
     glEnable( GL_DEPTH_TEST );
     glCullFace( GL_FRONT );
-
-    this->m_pCamera = std::make_shared<CCamera>();
 }
 
 CRenderer::~CRenderer() {
@@ -27,54 +25,15 @@ CRenderer::~CRenderer() {
 }
 
 void CRenderer::Render(GLFWwindow *window, int flags) {
-    if( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS )
-        this->m_pCamera->Move( GLFW_KEY_W );
-    if( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS )
-        this->m_pCamera->Move( GLFW_KEY_S );
-    if( glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS )
-        this->m_pCamera->Move( GLFW_KEY_A );
-    if( glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS )
-        this->m_pCamera->Move( GLFW_KEY_D );
-    if( glfwGetKey( window, GLFW_KEY_E ) == GLFW_PRESS )
-        this->m_pCamera->Move( GLFW_KEY_E );
-    if( glfwGetKey( window, GLFW_KEY_Q ) == GLFW_PRESS )
-        this->m_pCamera->Move( GLFW_KEY_Q );
-    
-    bool l_bIgnore = false;
+    if( g_pCamera != NULL ) {
+        int display_w, display_h;
+        glfwGetFramebufferSize(window, &display_w, &display_h);
 
-    static int l_iLastEscState = GLFW_RELEASE;
-    int        l_iCurrentEscState = glfwGetKey( window, GLFW_KEY_ESCAPE );
-    if( l_iCurrentEscState != l_iLastEscState && l_iLastEscState == GLFW_PRESS ) {
-        this->m_pCamera->ToggleMouseCapture(window);
-        l_bIgnore = true;
+        g_pCamera->Update(window, display_w, display_h);
+
+        unsigned int transLoc = glGetUniformLocation( GetDefaultShader()->GetID(), "transform" );
+        glUniformMatrix4fv( transLoc, 1, GL_FALSE, glm::value_ptr( g_pCamera->GetViewMatrix() ) );
     }
-
-    l_iLastEscState = l_iCurrentEscState;
-
-    static double l_dLastMousePosX, l_dLastMousePosY;
-    static double l_dCurrMousePosX, l_dCurrMousePosY;
-    glfwGetCursorPos(window, &l_dCurrMousePosX, &l_dCurrMousePosY );
-
-    float l_fDeltaX, l_fDeltaY;
-    l_fDeltaX = l_dLastMousePosX - l_dCurrMousePosX;
-    l_fDeltaY = l_dLastMousePosY - l_dCurrMousePosY;
-
-    l_dLastMousePosX = l_dCurrMousePosX; l_dLastMousePosY = l_dCurrMousePosY;
-
-    if( !l_bIgnore )
-        this->m_pCamera->Rotate( l_fDeltaX, l_fDeltaY );
-
-
-
-    int display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
-
-    this->m_pCamera->Update(display_w, display_h);
-
-    unsigned int transLoc = glGetUniformLocation( GetDefaultShader()->GetID(), "transform" );
-    glUniformMatrix4fv( transLoc, 1, GL_FALSE, glm::value_ptr( m_pCamera->GetViewMatrix() ) );
-
-    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 
     glm::fvec3 colors[4] = {
         glm::fvec3(0.5f, 0.9f, 0.9f),

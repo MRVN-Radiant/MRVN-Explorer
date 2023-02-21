@@ -23,7 +23,6 @@
 
 class CRenderer {
     private:
-        std::shared_ptr<CCamera> m_pCamera;
         unsigned int vertexBuffer, indexBuffer;
     public:
         CRenderer();

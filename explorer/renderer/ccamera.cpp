@@ -39,7 +39,7 @@ void CCamera::Move( int key ) {
     }
 }
 
-void CCamera::Update( float width, float height ) {
+void CCamera::Update( GLFWwindow *window, float width, float height ) {
     // Calculate direction vectors
     m_v3Front.x = sin( glm::radians( m_v2Rotation.x ) ) * cos(glm::radians(m_v2Rotation.y + 90));
     m_v3Front.y = cos( glm::radians( m_v2Rotation.x ) ) * cos(glm::radians(m_v2Rotation.y + 90));
@@ -55,6 +55,44 @@ void CCamera::Update( float width, float height ) {
     m_m4ViewMatrix = glm::rotate( m_m4ViewMatrix, glm::radians( m_v2Rotation.x ), glm::vec3( 0.0, 0.0, 1.0 ) );
 
     m_m4ViewMatrix = glm::translate( m_m4ViewMatrix, m_v3Origin );
+
+    //
+    if( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS )
+        this->Move( GLFW_KEY_W );
+    if( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS )
+        this->Move( GLFW_KEY_S );
+    if( glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS )
+        this->Move( GLFW_KEY_A );
+    if( glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS )
+        this->Move( GLFW_KEY_D );
+    if( glfwGetKey( window, GLFW_KEY_E ) == GLFW_PRESS )
+        this->Move( GLFW_KEY_E );
+    if( glfwGetKey( window, GLFW_KEY_Q ) == GLFW_PRESS )
+        this->Move( GLFW_KEY_Q );
+    
+    bool l_bIgnore = false;
+
+    static int l_iLastEscState = GLFW_RELEASE;
+    int        l_iCurrentEscState = glfwGetKey( window, GLFW_KEY_ESCAPE );
+    if( l_iCurrentEscState != l_iLastEscState && l_iLastEscState == GLFW_PRESS ) {
+        this->ToggleMouseCapture(window);
+        l_bIgnore = true;
+    }
+
+    l_iLastEscState = l_iCurrentEscState;
+
+    static double l_dLastMousePosX, l_dLastMousePosY;
+    static double l_dCurrMousePosX, l_dCurrMousePosY;
+    glfwGetCursorPos(window, &l_dCurrMousePosX, &l_dCurrMousePosY );
+
+    float l_fDeltaX, l_fDeltaY;
+    l_fDeltaX = l_dLastMousePosX - l_dCurrMousePosX;
+    l_fDeltaY = l_dLastMousePosY - l_dCurrMousePosY;
+
+    l_dLastMousePosX = l_dCurrMousePosX; l_dLastMousePosY = l_dCurrMousePosY;
+
+    if( !l_bIgnore )
+        this->Rotate( l_fDeltaX, l_fDeltaY );
 }
 
 void CCamera::Rotate( float dX, float dY ) {

@@ -59,6 +59,8 @@ CScene::CScene(const char *filename) {
         ERROR("Unknown BSP version!")
         this->m_bValid = false;
     }
+
+    this->m_pCamera = std::make_shared<CCamera>();
 }
 
 CScene::~CScene() {
@@ -150,14 +152,14 @@ void CScene::DrawViewportOptions() {
     }
 
     if( lastID != id ) {
-        this->m_pBsp->SetRendererMeshes(id);
-        g_pRenderer->Update();
+        this->UpdateRenderMeshes( id );
     }
 
     lastID = id;
 }
 
-void CScene::UpdateRenderMeshes() {
-    m_pBsp->SetRendererMeshes(0);
+void CScene::UpdateRenderMeshes( int id ) {
+    m_pBsp->SetRendererMeshes( id );
     g_pRenderer->Update();
+    g_pCamera = this->m_pCamera;
 }
