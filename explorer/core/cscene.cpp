@@ -150,9 +150,14 @@ void CScene::DrawViewportOptions() {
     }
 
     if( lastID != id ) {
-        LOG_EXPLORER_INFO("Viewport option changed!")
         this->m_pBsp->SetRendererMeshes(id);
+        g_pRenderer->Update();
     }
 
     lastID = id;
+}
+
+void CScene::UpdateRenderMeshes() {
+    m_pBsp->SetRendererMeshes(0);
+    g_pRenderer->Update();
 }

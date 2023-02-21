@@ -6,6 +6,8 @@
 
 namespace fs = std::filesystem;
 
+#define HAS_FLAG( value, flag ) (value & flag) == flag
+
 // ImGui requiers the call to open the popup and the call to draw the popup
 // to be in the same "context", this is why we're doing this.
 // TODO: Make a better system

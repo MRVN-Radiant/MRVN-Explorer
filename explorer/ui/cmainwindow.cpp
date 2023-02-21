@@ -9,8 +9,8 @@ CMainWindow::CMainWindow() {
     LOG_GUI_INFO("GLFW Initilazed")
     
     const char* glsl_version = "#version 130";
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
     // Create window
     m_bShouldClose = false;
@@ -25,6 +25,7 @@ CMainWindow::CMainWindow() {
 
     // Make context current
     glfwMakeContextCurrent(this->m_pWindow);
+    glfwSwapInterval( 1 );
 
     // ImGui
     IMGUI_CHECKVERSION();
@@ -41,7 +42,7 @@ CMainWindow::CMainWindow() {
 
     LOG_GUI_INFO("ImGui Initilazed")
 
-    this->m_pRenderer = std::make_unique<CRenderer>();
+    g_pRenderer = std::make_unique<CRenderer>();
 }
 
 CMainWindow::~CMainWindow() {
@@ -82,18 +83,20 @@ void CMainWindow::Loop() {
             ImGui::ShowDemoWindow( &g_bDrawDemoWindow );
 
         ImGui::Render();
+
+        glfwPollEvents();
+
         int display_w, display_h;
         glfwGetFramebufferSize(this->m_pWindow, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         //glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+        g_pRenderer->Render(this->m_pWindow, this->m_iRenderFlags);
+
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        m_pRenderer->Update(this->m_pWindow);
-
         glfwSwapBuffers(this->m_pWindow);
-
-        glfwPollEvents();
     }
 }
 
@@ -152,7 +155,10 @@ void CMainWindow::DrawMenuBar() {
             for( std::shared_ptr<CScene> &scene : g_vecpScenes ) {
                 ImGui::PushID(scene->ID());
                 if( ImGui::BeginTabItem(scene->Name().c_str(), scene->IsOpen() ) ) {
-                    g_pScene = scene;
+                    if( g_pScene != scene ) {
+                        g_pScene = scene;
+                        g_pScene->UpdateRenderMeshes();
+                    }
                     ImGui::EndTabItem();
                 }
 
@@ -168,6 +174,13 @@ void CMainWindow::DrawMenuBar() {
             // Need to remove the scene outside the loop
             if( pSceneToRemove ) {
                 pSceneToRemove->Remove();
+                g_pScene = NULL;
+                if( g_vecpScenes.size() != 0 ) {
+                    g_pScene = g_vecpScenes.back();
+                    g_pScene->UpdateRenderMeshes();
+                } else {
+                    g_pRenderer->Clear();
+                }
             }
 
             ImGui::EndTabBar();
@@ -207,6 +220,21 @@ void CMainWindow::DrawViewportControl() {
     ImGui::Begin( "Viewport Control", &g_bDrawViewportControlWindow );
     if( g_pScene ) {
         g_pScene->DrawViewportOptions();
+
+        m_iRenderFlags = 0;
+        static bool l_bDrawUnlit = true;
+        static bool l_bDrawLitFlat = true;
+        static bool l_bDrawLitBump = true;
+        static bool l_bDrawUnlitTS = true;
+        ImGui::Checkbox( "Draw Unlit", &l_bDrawUnlit );
+        ImGui::Checkbox( "Draw Lit Flat", &l_bDrawLitFlat );
+        ImGui::Checkbox( "Draw Lit Bump", &l_bDrawLitBump );
+        ImGui::Checkbox( "Draw Unlit TS", &l_bDrawUnlitTS );
+
+        if( l_bDrawUnlit )   { m_iRenderFlags |= RENDER_FLAG_UNLIT; }
+        if( l_bDrawLitFlat ) { m_iRenderFlags |= RENDER_FLAG_LITFLAT; }
+        if( l_bDrawLitBump ) { m_iRenderFlags |= RENDER_FLAG_LITBUMP; }
+        if( l_bDrawUnlitTS ) { m_iRenderFlags |= RENDER_FLAG_UNLITTS; }
     } else {
         ImGui::Text("No file open!");
     }
@@ -270,6 +298,7 @@ void CMainWindow::DrawDebugOverlay() {
         if( g_pScene != NULL ) {
             ImGui::Text("Scene name: %s", g_pScene->Name().c_str());
             ImGui::Text("Scene id: %i", g_pScene->ID());
+            ImGui::Text("Meshes: %i", g_vecRenderMehses.size());
         } else {
             ImGui::Text("No scenes open!");
         }

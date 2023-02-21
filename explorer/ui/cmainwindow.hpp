@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <memory>
 
+#include "../renderer/crenderer.hpp"
+
 #include <GLFW/glfw3.h>
 
 #include "imgui.h"
@@ -15,13 +17,11 @@
 
 #include "../core/cscene.hpp"
 
-#include "../renderer/crenderer.hpp"
-
 class CMainWindow {
     private:
         GLFWwindow                *m_pWindow;
         bool                       m_bShouldClose;
-        std::unique_ptr<CRenderer> m_pRenderer;
+        int                        m_iRenderFlags;
 
         void DrawMenuBar();
         void DrawFileInfo();

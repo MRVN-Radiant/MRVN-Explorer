@@ -5,6 +5,7 @@ project( explorer )
 
 set( CMAKE_CXX_STANDARD 20 )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build )
+set( CMAKE_CXX_FLAGS "-lGL -lGLEW")
 
 
 # Executable
@@ -47,8 +48,6 @@ target_include_directories( explorer
 
 #add_library( IMGUI STATIC ${IMGUI_DIR} )
 
-#find_package( OpenGL REQUIRED )
-#target_link_libraries( IMGUI PUBLIC ${OPENGL_LIBRARIES} )
 
 # GLFW
 find_package( glfw3 3.3 REQUIRED )
@@ -57,8 +56,11 @@ target_link_libraries( explorer glfw )
 # OpenGL
 find_package( OpenGL REQUIRED )
 target_link_libraries( explorer ${OPENGL_LIBRARIES} )
-#target_link_libraries( IMGUI PUBLIC ${OPENGL_LIBRARIES} )
 
 # Spdlog
-find_package(spdlog REQUIRED)
+find_package( spdlog REQUIRED )
 target_link_libraries( explorer spdlog::spdlog_header_only)
+
+# Copy shaders to build dir
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders/basic.frag DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders/basic.vert DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders)

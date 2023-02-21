@@ -35,6 +35,8 @@ class CScene {
 
         void DrawLumpsList( bool hideUnused );
         void DrawViewportOptions();
+
+        void UpdateRenderMeshes();
 };
 
 inline std::vector<std::shared_ptr<CScene>> g_vecpScenes;

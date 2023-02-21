@@ -2,13 +2,122 @@
 
 
 CRenderer::CRenderer() {
+    fs::path shadersDir = fs::path("./shaders/");
 
+    if(!fs::exists(shadersDir)) {
+        LOG_FILESYSTEM_ERROR("CRenderer::CRenderer: \"shaders\" dir not found!")
+        exit(-1);
+    }
+
+    if( glewInit() != GLEW_OK ) {
+        LOG_OPENGL_ERROR("Failed to initilaze GLEW!")
+        exit(-1);
+    }
+
+    g_vecpShaders.emplace_back( std::make_shared<CShader>(fs::path(shadersDir / "basic.vert"), fs::path(shadersDir / "basic.frag")) );
+
+    glEnable( GL_DEPTH_TEST );
+    glCullFace( GL_FRONT );
+
+    this->m_pCamera = std::make_shared<CCamera>();
 }
 
 CRenderer::~CRenderer() {
 
 }
 
-void CRenderer::Update(GLFWwindow *window) {
+void CRenderer::Render(GLFWwindow *window, int flags) {
+    if( glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS )
+        this->m_pCamera->Move( GLFW_KEY_W );
+    if( glfwGetKey( window, GLFW_KEY_S ) == GLFW_PRESS )
+        this->m_pCamera->Move( GLFW_KEY_S );
+    if( glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS )
+        this->m_pCamera->Move( GLFW_KEY_A );
+    if( glfwGetKey( window, GLFW_KEY_D ) == GLFW_PRESS )
+        this->m_pCamera->Move( GLFW_KEY_D );
+    if( glfwGetKey( window, GLFW_KEY_E ) == GLFW_PRESS )
+        this->m_pCamera->Move( GLFW_KEY_E );
+    if( glfwGetKey( window, GLFW_KEY_Q ) == GLFW_PRESS )
+        this->m_pCamera->Move( GLFW_KEY_Q );
+    
+    bool l_bIgnore = false;
 
+    static int l_iLastEscState = GLFW_RELEASE;
+    int        l_iCurrentEscState = glfwGetKey( window, GLFW_KEY_ESCAPE );
+    if( l_iCurrentEscState != l_iLastEscState && l_iLastEscState == GLFW_PRESS ) {
+        this->m_pCamera->ToggleMouseCapture(window);
+        l_bIgnore = true;
+    }
+
+    l_iLastEscState = l_iCurrentEscState;
+
+    static double l_dLastMousePosX, l_dLastMousePosY;
+    static double l_dCurrMousePosX, l_dCurrMousePosY;
+    glfwGetCursorPos(window, &l_dCurrMousePosX, &l_dCurrMousePosY );
+
+    float l_fDeltaX, l_fDeltaY;
+    l_fDeltaX = l_dLastMousePosX - l_dCurrMousePosX;
+    l_fDeltaY = l_dLastMousePosY - l_dCurrMousePosY;
+
+    l_dLastMousePosX = l_dCurrMousePosX; l_dLastMousePosY = l_dCurrMousePosY;
+
+    if( !l_bIgnore )
+        this->m_pCamera->Rotate( l_fDeltaX, l_fDeltaY );
+
+
+
+    int display_w, display_h;
+    glfwGetFramebufferSize(window, &display_w, &display_h);
+
+    this->m_pCamera->Update(display_w, display_h);
+
+    unsigned int transLoc = glGetUniformLocation( GetDefaultShader()->GetID(), "transform" );
+    glUniformMatrix4fv( transLoc, 1, GL_FALSE, glm::value_ptr( m_pCamera->GetViewMatrix() ) );
+
+    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
+    glm::fvec3 colors[4] = {
+        glm::fvec3(0.5f, 0.9f, 0.9f),
+        glm::fvec3(0.6f, 0.9f, 0.5f),
+        glm::fvec3(0.8f, 0.5f, 0.9f),
+        glm::fvec3(0.9f, 0.6f, 0.5f)
+    };
+
+    for( std::size_t i = 0; i < g_vecRenderMehses.size(); i++ ) {
+        RenderMesh_t &rm = g_vecRenderMehses[i];
+
+        if( !(rm.flags & flags ) )
+            continue;
+
+        glm::fvec3 color = colors[i % 4];
+        unsigned int colorLoc = glGetUniformLocation( g_vecpShaders[0]->GetID(), "base" );
+        glUniform3fv( colorLoc, 1, glm::value_ptr( color ) );
+
+        glDrawElements( GL_TRIANGLES, rm.triCount, GL_UNSIGNED_INT, (void*)(sizeof(GLuint) * rm.triStart ) );
+    }
+}
+
+void CRenderer::Update() {
+    LOG_OPENGL_INFO("CRenderer::Update: Updating to {} vertices using {} triangles", g_vecRenderVertices.size(), g_vecRenderIndices.size() / 3)
+    glGenBuffers( 1, &vertexBuffer );
+    glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
+    glBufferData( GL_ARRAY_BUFFER, sizeof( RenderVertex_t ) * g_vecRenderVertices.size(), &g_vecRenderVertices.front(), GL_STATIC_DRAW );
+
+    glGenBuffers( 1, &indexBuffer );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indexBuffer );
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(RenderIndex_t) * g_vecRenderIndices.size(), &g_vecRenderIndices.front(), GL_STATIC_DRAW );
+
+    glUseProgram( GetDefaultShader()->GetID() );
+
+
+    glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( RenderVertex_t ), (void*)offsetof( RenderVertex_t, position ) );
+    glEnableVertexAttribArray( 0 );
+    glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( RenderVertex_t ), (void*)offsetof( RenderVertex_t, normal ) );
+    glEnableVertexAttribArray( 1 );
+}
+
+void CRenderer::Clear() {
+    g_vecRenderMehses.clear();
+    g_vecRenderVertices.clear();
+    g_vecRenderIndices.clear();
 }

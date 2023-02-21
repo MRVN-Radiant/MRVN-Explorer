@@ -20,15 +20,15 @@ class CTitanfallBsp : public IBsp {
         std::vector<Titanfall::MaterialSort_t>  m_lmpMaterialSorts;
     public:
         CTitanfallBsp(const char *filename) : IBsp(filename) { // g++ wont let me define this in the .cpp ???
-            CopyLump( eTitanfallLumps::VERTICES,        m_lmpVertices );
-            CopyLump( eTitanfallLumps::VERTEX_NORMALS,  m_lmpVertexNormals );
-            CopyLump( eTitanfallLumps::VERTEX_UNLIT,    m_lmpUnlitVertices );
-            CopyLump( eTitanfallLumps::VERTEX_LIT_FLAT, m_lmpLitFlatVertices );
-            CopyLump( eTitanfallLumps::VERTEX_LIT_BUMP, m_lmpLitBumpVertices );
-            CopyLump( eTitanfallLumps::VERTEX_UNLIT_TS, m_lmpUnlitTSVertices );
-            CopyLump( eTitanfallLumps::MESH_INDICES,    m_lmpMeshIndices );
-            CopyLump( eTitanfallLumps::MESHES,          m_lmpMeshes );
-            CopyLump( eTitanfallLumps::MATERIAL_SORT,   m_lmpMaterialSorts );
+            CopyLump( (int)eTitanfallLumps::VERTICES,        m_lmpVertices );
+            CopyLump( (int)eTitanfallLumps::VERTEX_NORMALS,  m_lmpVertexNormals );
+            CopyLump( (int)eTitanfallLumps::VERTEX_UNLIT,    m_lmpUnlitVertices );
+            CopyLump( (int)eTitanfallLumps::VERTEX_LIT_FLAT, m_lmpLitFlatVertices );
+            CopyLump( (int)eTitanfallLumps::VERTEX_LIT_BUMP, m_lmpLitBumpVertices );
+            CopyLump( (int)eTitanfallLumps::VERTEX_UNLIT_TS, m_lmpUnlitTSVertices );
+            CopyLump( (int)eTitanfallLumps::MESH_INDICES,    m_lmpMeshIndices );
+            CopyLump( (int)eTitanfallLumps::MESHES,          m_lmpMeshes );
+            CopyLump( (int)eTitanfallLumps::MATERIAL_SORT,   m_lmpMaterialSorts );
             CloseFile();
         }
         virtual std::string                 GetGameName();
