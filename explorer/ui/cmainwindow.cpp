@@ -47,6 +47,14 @@ CMainWindow::CMainWindow() {
     this->m_dSecondsStart = glfwGetTime();
     this->m_iFps = 0;
     this->m_iTempFps = 0;
+
+    m_bDrawFileInformationWindow = true;
+    m_bDrawViewportControlWindow = true;
+    m_bDrawDemoWindow = false;
+    m_bDrawConsoleWindow = false;
+    m_bDrawDebugOverlay = true;
+    m_bDrawControlsModal = false;
+    m_bDrawAboutModal = false;
 }
 
 CMainWindow::~CMainWindow() {
@@ -73,10 +81,10 @@ void CMainWindow::Loop() {
 
         this->DrawDebugOverlay();
 
-        if( g_bDrawControlsModal ) { ImGui::OpenPopup("Controls"); g_bDrawControlsModal = false; }
+        if( m_bDrawControlsModal ) { ImGui::OpenPopup("Controls"); m_bDrawControlsModal = false; }
         this->DrawControlsModal();
 
-        if( g_bDrawAboutModal ) { ImGui::OpenPopup("About"); g_bDrawAboutModal = false; }
+        if( m_bDrawAboutModal ) { ImGui::OpenPopup("About"); m_bDrawAboutModal = false; }
         this->DrawAboutModal();
 
         if( g_bOpenFileChooseModal ) { ImGui::OpenPopup("File Chooser"); g_bOpenFileChooseModal = false; };
@@ -86,8 +94,8 @@ void CMainWindow::Loop() {
         this->DrawErrorModal();
 
 
-        if( g_bDrawDemoWindow )
-            ImGui::ShowDemoWindow( &g_bDrawDemoWindow );
+        if( m_bDrawDemoWindow )
+            ImGui::ShowDemoWindow( &m_bDrawDemoWindow );
 
         ImGui::Render();
 
@@ -141,20 +149,20 @@ void CMainWindow::DrawMenuBar() {
         }
         if (ImGui::BeginMenu("View"))
         {
-            ImGui::MenuItem( "File Information", NULL, &g_bDrawFileInformationWindow );
-            ImGui::MenuItem( "Viewport control", NULL, &g_bDrawViewportControlWindow );
-            ImGui::MenuItem( "Console", NULL, &g_bDrawConsoleWindow );
-            ImGui::MenuItem( "Debug Overlay", NULL, &g_bDrawDebugOverlay );
+            ImGui::MenuItem( "File Information", NULL, &m_bDrawFileInformationWindow );
+            ImGui::MenuItem( "Viewport control", NULL, &m_bDrawViewportControlWindow );
+            ImGui::MenuItem( "Console", NULL, &m_bDrawConsoleWindow );
+            ImGui::MenuItem( "Debug Overlay", NULL, &m_bDrawDebugOverlay );
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("Help"))
         {
-            ImGui::MenuItem( "About", NULL, &g_bDrawAboutModal );
-            ImGui::MenuItem( "Controls", NULL, &g_bDrawControlsModal );
+            ImGui::MenuItem( "About", NULL, &m_bDrawAboutModal );
+            ImGui::MenuItem( "Controls", NULL, &m_bDrawControlsModal );
             ImGui::Separator();
             if( ImGui::MenuItem("Error test") ) { ERROR( "Test error modal\nSecond line!" ) }
             ImGui::Separator();
-            ImGui::MenuItem( "Demo window", NULL, &g_bDrawDemoWindow );
+            ImGui::MenuItem( "Demo window", NULL, &m_bDrawDemoWindow );
             ImGui::EndMenu();
         }
 
@@ -207,10 +215,10 @@ void CMainWindow::DrawMenuBar() {
 }
 
 void CMainWindow::DrawFileInfo() {
-    if( !g_bDrawFileInformationWindow )
+    if( !m_bDrawFileInformationWindow )
         return;
 
-    ImGui::Begin( "File Information", &g_bDrawFileInformationWindow );
+    ImGui::Begin( "File Information", &m_bDrawFileInformationWindow );
 
     if( g_pScene ) {
         ImGui::Text("Name: %s", g_pScene->Name().c_str());
@@ -230,10 +238,10 @@ void CMainWindow::DrawFileInfo() {
 }
 
 void CMainWindow::DrawViewportControl() {
-    if ( !g_bDrawViewportControlWindow )
+    if ( !m_bDrawViewportControlWindow )
         return;
     
-    ImGui::Begin( "Viewport Control", &g_bDrawViewportControlWindow );
+    ImGui::Begin( "Viewport Control", &m_bDrawViewportControlWindow );
     if( g_pScene ) {
         g_pScene->DrawViewportOptions();
     } else {
@@ -243,13 +251,13 @@ void CMainWindow::DrawViewportControl() {
 }
 
 void CMainWindow::DrawConsole() {
-    if( !g_bDrawConsoleWindow )
+    if( !m_bDrawConsoleWindow )
         return;
     
     static bool bAutoScroll = true;
     static int  iTestLogCount = 314;
     
-    ImGui::Begin( "Console", &g_bDrawConsoleWindow, ImGuiWindowFlags_MenuBar );
+    ImGui::Begin( "Console", &m_bDrawConsoleWindow, ImGuiWindowFlags_MenuBar );
 
     if (ImGui::BeginMenuBar()) {
         ImGui::Checkbox( "Auto-Scroll", &bAutoScroll );
@@ -273,7 +281,7 @@ void CMainWindow::DrawConsole() {
 }
 
 void CMainWindow::DrawDebugOverlay() {
-    if( !g_bDrawDebugOverlay )
+    if( !m_bDrawDebugOverlay )
         return;
 
     ImGuiIO& io = ImGui::GetIO();

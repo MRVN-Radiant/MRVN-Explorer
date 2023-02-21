@@ -25,6 +25,14 @@ class CMainWindow {
         int         m_iTempFps;
         double      m_dSecondsStart;
 
+        bool m_bDrawFileInformationWindow;
+        bool m_bDrawViewportControlWindow;
+        bool m_bDrawDemoWindow;
+        bool m_bDrawConsoleWindow;
+        bool m_bDrawDebugOverlay;
+        bool m_bDrawControlsModal;
+        bool m_bDrawAboutModal;
+
         void DrawMenuBar();
         void DrawFileInfo();
         void DrawViewportControl();

@@ -21,14 +21,3 @@ inline std::string g_szFileChooserModal = "";
 inline bool        g_bOpenFileChooseModal = false;
 
 #define OPEN_FILE_CHOOSER() g_bOpenFileChooseModal = true; g_szFileChooserModal = std::getenv("HOME");
-
-// These should probably go into CMainWindow
-// TODO: Decide when the base structure of the program is finished
-// Windows
-inline bool g_bDrawFileInformationWindow = true;
-inline bool g_bDrawViewportControlWindow = true;
-inline bool g_bDrawDemoWindow = false;
-inline bool g_bDrawConsoleWindow = false;
-inline bool g_bDrawDebugOverlay = true;
-inline bool g_bDrawControlsModal = false;
-inline bool g_bDrawAboutModal = false;
