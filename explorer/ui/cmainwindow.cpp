@@ -43,6 +43,10 @@ CMainWindow::CMainWindow() {
     LOG_GUI_INFO("ImGui Initilazed")
 
     g_pRenderer = std::make_unique<CRenderer>();
+
+    this->m_dSecondsStart = glfwGetTime();
+    this->m_iFps = 0;
+    this->m_iTempFps = 0;
 }
 
 CMainWindow::~CMainWindow() {
@@ -97,6 +101,14 @@ void CMainWindow::Loop() {
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(this->m_pWindow);
+
+        this->m_iTempFps++;
+
+        if( glfwGetTime() - this->m_dSecondsStart > 1 ) {
+            this->m_dSecondsStart = glfwGetTime();
+            this->m_iFps = this->m_iTempFps;
+            this->m_iTempFps = 0;
+        }
     }
 }
 
@@ -302,6 +314,8 @@ void CMainWindow::DrawDebugOverlay() {
         } else {
             ImGui::Text("No scenes open!");
         }
+
+        ImGui::Text("FPS: %i", this->m_iFps);
     }
     ImGui::End();
 }
