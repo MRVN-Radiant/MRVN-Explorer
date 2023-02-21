@@ -7,7 +7,7 @@ CCamera::CCamera() {
     m_fFov = 70.0f;
     m_fSpeed = 10.0f;
     m_v3Origin = glm::vec3( 0.0f, 0.0f, 0.0f );
-    m_v2Rotation = glm::vec2( 0.0f, 0.0f );
+    m_v2Rotation = glm::vec2( 0.0f, -90.0f );
     m_m4ViewMatrix = glm::mat4( 1.0f );
     m_bCursorCaptured = false;
 }
