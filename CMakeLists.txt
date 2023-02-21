@@ -5,7 +5,6 @@ project( explorer )
 
 set( CMAKE_CXX_STANDARD 20 )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build )
-set( CMAKE_CXX_FLAGS "-lGL -lGLEW" )
 
 
 # Executable
@@ -59,6 +58,7 @@ target_link_libraries( explorer ${OPENGL_LIBRARIES} )
 
 find_package( OpenGL REQUIRED )
 target_link_libraries( explorer ${GLEW_LIBRARIES} )
+link_libraries( ${GLEW_LIBRARIES} )
 
 # Spdlog
 find_package( spdlog REQUIRED )
