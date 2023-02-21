@@ -319,6 +319,7 @@ void CMainWindow::DrawControlsModal() {
         ImGui::Button("D", ImVec2(100, 0));          ImGui::SameLine(120); ImGui::Text("Move right");
         ImGui::Button("Q", ImVec2(100, 0));          ImGui::SameLine(120); ImGui::Text("Move down");
         ImGui::Button("E", ImVec2(100, 0));          ImGui::SameLine(120); ImGui::Text("Move up");
+        ImGui::Button("ESC", ImVec2(100, 0));        ImGui::SameLine(120); ImGui::Text("Capture mouse");
         ImGui::Button("LEFT SHIFT", ImVec2(100, 0)); ImGui::SameLine(120); ImGui::Text("Increase movement speed");
         ImGui::EndDisabled();
 
