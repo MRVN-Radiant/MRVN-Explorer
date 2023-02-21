@@ -56,9 +56,9 @@ target_link_libraries( explorer glfw )
 find_package( OpenGL REQUIRED )
 target_link_libraries( explorer ${OPENGL_LIBRARIES} )
 
-find_package( OpenGL REQUIRED )
+find_package( GLEW REQUIRED )
 target_link_libraries( explorer ${GLEW_LIBRARIES} )
-link_libraries( ${GLEW_LIBRARIES} )
+add_library(GLEW STATIC IMPORTED ${GLEW_LIBRARIES})
 
 # Spdlog
 find_package( spdlog REQUIRED )
