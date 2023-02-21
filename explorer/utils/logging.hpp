@@ -9,16 +9,18 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/ostream_sink.h"
 
+#include "cfilesink.hpp"
+
 class CLogger {
     private:
-        std::shared_ptr<spdlog::sinks::basic_file_sink_st> m_pSink = std::make_shared<spdlog::sinks::basic_file_sink_st>( "log.txt" );
-        std::shared_ptr<std::ostringstream> m_pStringStream = std::make_shared<std::ostringstream>();
-        std::shared_ptr<spdlog::sinks::ostream_sink_st> m_pStringStreamSink = std::make_shared<spdlog::sinks::ostream_sink_st> (*m_pStringStream);
+        std::shared_ptr<CFileSink_st> m_pSink;
+        std::shared_ptr<std::ostringstream> m_pStringStream;
+        std::shared_ptr<spdlog::sinks::ostream_sink_st> m_pStringStreamSink;
 
 #ifdef _WIN32
-        std::shared_ptr<spdlog::sinks::wincolor_stdout_sink_st> m_pConsoleSink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_st>(); 
+        std::shared_ptr<spdlog::sinks::wincolor_stdout_sink_st> m_pConsoleSink;
 #else
-        std::shared_ptr<spdlog::sinks::ansicolor_stdout_sink_st> m_pConsoleSink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_st>(); 
+        std::shared_ptr<spdlog::sinks::ansicolor_stdout_sink_st> m_pConsoleSink;
 #endif
 
 
@@ -36,7 +38,7 @@ class CLogger {
         std::shared_ptr<std::ostringstream> StringStream();
 };
 
-inline std::unique_ptr<CLogger> g_pLogger = std::make_unique<CLogger>();
+inline std::unique_ptr<CLogger> g_pLogger;
 
 #define LOG_EXPLORER_INFO(...)    g_pLogger->Explorer()->info(__VA_ARGS__);
 #define LOG_EXPLORER_WARN(...)    g_pLogger->Explorer()->warn(__VA_ARGS__);

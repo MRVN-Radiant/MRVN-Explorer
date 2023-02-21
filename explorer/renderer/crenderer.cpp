@@ -13,6 +13,7 @@ CRenderer::CRenderer() {
         LOG_OPENGL_ERROR("Failed to initilaze GLEW!")
         exit(-1);
     }
+    LOG_OPENGL_INFO("GLEW Initilazed")
 
     g_vecpShaders.emplace_back( std::make_shared<CShader>(fs::path(shadersDir / "basic.vert"), fs::path(shadersDir / "basic.frag")) );
 

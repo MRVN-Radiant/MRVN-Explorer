@@ -3,6 +3,17 @@
 
 
 CLogger::CLogger() {
+    this->m_pSink             = std::make_shared<CFileSink_st>();
+    this->m_pStringStream     = std::make_shared<std::ostringstream>();
+    this->m_pStringStreamSink = std::make_shared<spdlog::sinks::ostream_sink_st> (*m_pStringStream);
+
+#ifdef _WIN32
+    this->m_pConsoleSink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_st>(); 
+#else
+    this->m_pConsoleSink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_st>(); 
+#endif
+
+
     this->m_pSink->set_pattern("[%n] [%l] %v");
     this->m_pConsoleSink->set_pattern("[%n] [%l] %v");
     this->m_pStringStreamSink->set_pattern("[%n] [%l] %v");

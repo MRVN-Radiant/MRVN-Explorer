@@ -9,6 +9,8 @@ int main( int argc, char *argv[] ) {
     // Set working path to exe directory no matter where we're being ran from
     fs::current_path(fs::path(argv[0]).parent_path());
 
+    g_pLogger = std::make_unique<CLogger>();
+
     LOG_EXPLORER_INFO("                   __                    ")
     LOG_EXPLORER_INFO("  ___  _  ______  / /___  ________  _____")
     LOG_EXPLORER_INFO(" / _ \\| |/_/ __ \\/ / __ \\/ ___/ _ \\/ ___/")
