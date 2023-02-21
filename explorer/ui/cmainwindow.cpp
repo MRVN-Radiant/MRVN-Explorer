@@ -96,7 +96,7 @@ void CMainWindow::Loop() {
         //glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-        g_pRenderer->Render(this->m_pWindow, this->m_iRenderFlags);
+        g_pRenderer->Render(this->m_pWindow);
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -232,21 +232,6 @@ void CMainWindow::DrawViewportControl() {
     ImGui::Begin( "Viewport Control", &g_bDrawViewportControlWindow );
     if( g_pScene ) {
         g_pScene->DrawViewportOptions();
-
-        m_iRenderFlags = 0;
-        static bool l_bDrawUnlit = true;
-        static bool l_bDrawLitFlat = true;
-        static bool l_bDrawLitBump = true;
-        static bool l_bDrawUnlitTS = true;
-        ImGui::Checkbox( "Draw Unlit", &l_bDrawUnlit );
-        ImGui::Checkbox( "Draw Lit Flat", &l_bDrawLitFlat );
-        ImGui::Checkbox( "Draw Lit Bump", &l_bDrawLitBump );
-        ImGui::Checkbox( "Draw Unlit TS", &l_bDrawUnlitTS );
-
-        if( l_bDrawUnlit )   { m_iRenderFlags |= RENDER_FLAG_UNLIT; }
-        if( l_bDrawLitFlat ) { m_iRenderFlags |= RENDER_FLAG_LITFLAT; }
-        if( l_bDrawLitBump ) { m_iRenderFlags |= RENDER_FLAG_LITBUMP; }
-        if( l_bDrawUnlitTS ) { m_iRenderFlags |= RENDER_FLAG_UNLITTS; }
     } else {
         ImGui::Text("No file open!");
     }

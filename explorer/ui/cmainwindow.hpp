@@ -21,7 +21,6 @@ class CMainWindow {
     private:
         GLFWwindow *m_pWindow;
         bool        m_bShouldClose;
-        int         m_iRenderFlags;
         int         m_iFps;
         int         m_iTempFps;
         double      m_dSecondsStart;

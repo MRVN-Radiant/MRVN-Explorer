@@ -27,7 +27,7 @@ class CRenderer {
     public:
         CRenderer();
         ~CRenderer();
-        void Render(GLFWwindow *window, int flags);
+        void Render(GLFWwindow *window);
         void Update();
         void Clear();
 };
@@ -45,6 +45,8 @@ struct RenderMesh_t {
 };
 
 using RenderIndex_t = uint32_t;
+
+inline int g_iRenderFlags;
 
 inline std::unique_ptr<CRenderer> g_pRenderer;
 

@@ -61,6 +61,11 @@ CScene::CScene(const char *filename) {
     }
 
     this->m_pCamera = std::make_shared<CCamera>();
+    this->m_bCullBackFaces = true;
+    this->m_bDrawUnlit     = true;
+    this->m_bDrawLitFlat   = true;
+    this->m_bDrawLitBump   = true;
+    this->m_bDrawUnlitTS   = true;
 }
 
 CScene::~CScene() {
@@ -156,6 +161,27 @@ void CScene::DrawViewportOptions() {
     }
 
     lastID = id;
+
+    ImGui::Checkbox("Cull back faces", &this->m_bCullBackFaces);
+
+    if(this->m_bCullBackFaces) {
+        glEnable( GL_CULL_FACE );
+    } else {
+        glDisable( GL_CULL_FACE );
+    }
+
+    ImGui::Separator();
+    
+    g_iRenderFlags = 0;
+    ImGui::Checkbox( "Draw Unlit", &m_bDrawUnlit );
+    ImGui::Checkbox( "Draw Lit Flat", &m_bDrawLitFlat );
+    ImGui::Checkbox( "Draw Lit Bump", &m_bDrawLitBump );
+    ImGui::Checkbox( "Draw Unlit TS", &m_bDrawUnlitTS );
+
+    if( m_bDrawUnlit )   { g_iRenderFlags |= RENDER_FLAG_UNLIT; }
+    if( m_bDrawLitFlat ) { g_iRenderFlags |= RENDER_FLAG_LITFLAT; }
+    if( m_bDrawLitBump ) { g_iRenderFlags |= RENDER_FLAG_LITBUMP; }
+    if( m_bDrawUnlitTS ) { g_iRenderFlags |= RENDER_FLAG_UNLITTS; }
 }
 
 void CScene::UpdateRenderMeshes( int id ) {

@@ -21,6 +21,13 @@ class CScene {
 
         std::unique_ptr<IBsp>    m_pBsp;
         std::shared_ptr<CCamera> m_pCamera;
+
+        // Settings
+        bool m_bCullBackFaces;
+        bool m_bDrawUnlit;
+        bool m_bDrawLitFlat;
+        bool m_bDrawLitBump;
+        bool m_bDrawUnlitTS;
     public:
         CScene(const char *filename);
         ~CScene();

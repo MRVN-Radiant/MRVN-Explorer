@@ -18,13 +18,14 @@ CRenderer::CRenderer() {
 
     glEnable( GL_DEPTH_TEST );
     glCullFace( GL_FRONT );
+    glEnable( GL_CULL_FACE );
 }
 
 CRenderer::~CRenderer() {
 
 }
 
-void CRenderer::Render(GLFWwindow *window, int flags) {
+void CRenderer::Render(GLFWwindow *window) {
     if( g_pCamera != NULL ) {
         int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
@@ -45,7 +46,7 @@ void CRenderer::Render(GLFWwindow *window, int flags) {
     for( std::size_t i = 0; i < g_vecRenderMehses.size(); i++ ) {
         RenderMesh_t &rm = g_vecRenderMehses[i];
 
-        if( !(rm.flags & flags ) )
+        if( !(rm.flags & g_iRenderFlags) )
             continue;
 
         glm::fvec3 color = colors[i % 4];
