@@ -31,5 +31,5 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: Explorer-linux
-        path: build/
+        path: ${{github.workspace}}/build/
         if-no-files-found: error
