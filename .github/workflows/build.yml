@@ -1,4 +1,4 @@
-name: CMake
+name: Build
 
 on: [ push, pull_request ]
 
@@ -26,5 +26,10 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE
+      
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Explorer-linux
+        path: build/
+        if-no-files-found: error
