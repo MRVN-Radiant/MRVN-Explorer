@@ -18,7 +18,7 @@ jobs:
     
     - uses: msys2/setup-msys2@v2
       with:
-        install: mingw-w64-x86_64-spdlog mingw-w64-x86_64-mesa mingw-w64-x86_64-glfw
+        install: mingw-w64-x86_64-spdlog mingw-w64-x86_64-mesa mingw-w64-x86_64-glfw cmake
         msystem: MINGW64
     
     - name: Configure CMake
