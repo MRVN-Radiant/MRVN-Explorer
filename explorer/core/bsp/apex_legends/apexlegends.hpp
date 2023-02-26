@@ -24,6 +24,8 @@ class CApexLegendsBsp : public IBsp {
         std::vector<uint16_t>                   m_lmpMeshIndices;
         std::vector<ApexLegends::Mesh_t>          m_lmpMeshes;
         std::vector<ApexLegends::MaterialSort_t>  m_lmpMaterialSorts;
+
+        void DrawLump_BVHLeafData();
     public:
         CApexLegendsBsp(const char *filename) : IBsp(filename) { // g++ wont let me define this in the .cpp ???
             CopyLump( (int)eApexLegendsLumps::VERTICES,        m_lmpVertices );

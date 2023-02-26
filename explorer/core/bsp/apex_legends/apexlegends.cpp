@@ -36,7 +36,7 @@ std::vector<LumpDef_t> CApexLegendsBsp::GetLumps() {
                 {                  "Contents Masks", m_header.lumps[ 16].length,       0,        0,            -1,      false },
                 {              "Surface Properties", m_header.lumps[ 17].length,       0,        0,            -1,      false },
                 {                       "BVH Nodes", m_header.lumps[ 18].length,       0,        0,            -1,      false },
-                {                   "BVH Leaf Data", m_header.lumps[ 19].length,       0,        0,            -1,      false },
+                {                   "BVH Leaf Data", m_header.lumps[ 19].length,       0,        0,            -1,       true },
                 {                 "Packed Vertices", m_header.lumps[ 20].length,       0,        0,            -1,      false },
                 {                          "Unused", m_header.lumps[ 21].length,       0,       -1,            -1,      false },
                 {                          "Unused", m_header.lumps[ 22].length,       0,       -1,            -1,      false },

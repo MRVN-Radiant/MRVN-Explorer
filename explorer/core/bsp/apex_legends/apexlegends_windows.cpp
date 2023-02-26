@@ -6,6 +6,16 @@
 
 #include "../../../utils/logging.hpp"
 
+#include "imgui.h"
+
+void CApexLegendsBsp::DrawLump_BVHLeafData() {
+    ImGui::Text("BVHLeafData");
+}
+
 void CApexLegendsBsp::DrawLumpInspectWindow( int index ) {
-    
+    switch( index ) {
+        case (int)eApexLegendsLumps::BVH_LEAF_DATA:
+            DrawLump_BVHLeafData();
+            break;
+    }
 }

@@ -143,7 +143,7 @@ void CScene::DrawLumpsList( bool hideUnused ) {
         ImGui::TableNextColumn();
         if( !lump.canInspect ) { ImGui::BeginDisabled(); }
         ImGui::PushID(i);
-        ImGui::Button( "Inspect" );
+        if( ImGui::Button( "Inspect" ) ) { m_abOpenWindows[i] = true; }
         ImGui::PopID();
         if( !lump.canInspect ) { ImGui::EndDisabled(); }
         ImGui::TableNextRow();
@@ -151,6 +151,19 @@ void CScene::DrawLumpsList( bool hideUnused ) {
         i++;
     }
     ImGui::EndTable();
+}
+
+void CScene::DrawLumpWindows() {
+    for( int i = 0; i < 128; i++ ) {
+        if( !this->m_abOpenWindows[i] )
+            continue;
+        
+        LumpDef_t lumpDef = this->m_pBsp->GetLumps()[i];
+
+        ImGui::Begin(lumpDef.name, &this->m_abOpenWindows[i]);
+        this->m_pBsp->DrawLumpInspectWindow(i);
+        ImGui::End();
+    }
 }
 
 void CScene::DrawViewportOptions() {

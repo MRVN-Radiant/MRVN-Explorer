@@ -83,6 +83,8 @@ void CMainWindow::Loop() {
         this->DrawViewportControl();
         this->DrawConsole();
 
+        if( g_pScene ) { g_pScene->DrawLumpWindows(); }
+
         this->DrawDebugOverlay();
 
         if( m_bDrawControlsModal ) { ImGui::OpenPopup("Controls"); m_bDrawControlsModal = false; }
