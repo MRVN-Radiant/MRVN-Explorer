@@ -36,3 +36,9 @@ struct Vector2 {
 
 using Vector3f = Vector3<float>;
 using Vector2f = Vector2<float>;
+
+template<typename T>
+struct AABB {
+    Vector3<T> mins;
+    Vector3<T> maxs;
+};
