@@ -19,8 +19,12 @@ target_sources( explorer
                     explorer/utils/logging.cpp
                     explorer/core/cscene.cpp
                     explorer/core/bsp/ibsp.cpp
-                    explorer/core/bsp/apex_legends/capexlegendsbsp.cpp
-                    explorer/core/bsp/titanfall/ctitanfallbsp.cpp
+                    explorer/core/bsp/apex_legends/apexlegends.cpp
+                    explorer/core/bsp/apex_legends/apexlegends_render.cpp
+                    explorer/core/bsp/apex_legends/apexlegends_windows.cpp
+                    explorer/core/bsp/titanfall/titanfall.cpp
+                    explorer/core/bsp/titanfall/titanfall_render.cpp
+                    explorer/core/bsp/titanfall/titanfall_windows.cpp
                     explorer/renderer/crenderer.cpp
                     explorer/renderer/ccamera.cpp
 )

@@ -10,8 +10,8 @@
 #include "imgui.h"
 
 #include "bsp/ibsp.hpp"
-#include "bsp/apex_legends/capexlegendsbsp.hpp"
-#include "bsp/titanfall/ctitanfallbsp.hpp"
+#include "bsp/apex_legends/apexlegends.hpp"
+#include "bsp/titanfall/titanfall.hpp"
 
 #include "../utils/logging.hpp"
 #include "../utils/globals.hpp"
