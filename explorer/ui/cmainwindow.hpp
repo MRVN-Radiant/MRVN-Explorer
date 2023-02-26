@@ -54,3 +54,5 @@ class CMainWindow {
         void Loop();
         void Close();
 };
+
+inline std::unique_ptr<CMainWindow> g_pMainWindow;

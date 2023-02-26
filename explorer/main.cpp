@@ -24,9 +24,9 @@ int main( int argc, char *argv[] ) {
 
     LOG_EXPLORER_INFO("Path: {}", fs::current_path().c_str());
 
-    CMainWindow mainWindow;
+    g_pMainWindow = std::make_unique<CMainWindow>();
 
-    mainWindow.Loop();
+    g_pMainWindow->Loop();
 
     return 0;
 }
