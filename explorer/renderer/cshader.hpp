@@ -1,3 +1,7 @@
+/*
+    This file is part of MRVN-Explorer under the MIT license
+    Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
+*/
 #pragma once
 
 #include <fstream>
@@ -80,6 +84,10 @@ class CShader {
 
             glDeleteShader( vertex );
             glDeleteShader( fragment );
+        }
+
+        void Use() {
+            glUseProgram( this->m_iID );
         }
 
         unsigned int GetID() {
