@@ -97,7 +97,7 @@ std::vector<LumpDef_t> CTitanfallBsp::GetLumps() {
                 {               "Vertex Reserved 6", m_header.lumps[ 77].length,       0,        0,            -1,      false },
                 {               "Vertex Reserved 7", m_header.lumps[ 78].length,       0,        0,            -1,      false },
                 {                    "Mesh Indices", m_header.lumps[ 79].length,       0,        0,            -1,      false },
-                {                          "Meshes", m_header.lumps[ 80].length,       0,        0,            -1,      false },
+                {                          "Meshes", m_header.lumps[ 80].length,       0,        0,            -1,       true },
                 {                     "Mesh Bounds", m_header.lumps[ 81].length,       0,        0,            -1,      false },
                 {                   "Material Sort", m_header.lumps[ 82].length,       0,        0,            -1,      false },
                 {                "Lightmap Headers", m_header.lumps[ 83].length,       0,        0,            -1,      false },

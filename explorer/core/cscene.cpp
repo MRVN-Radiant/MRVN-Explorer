@@ -160,8 +160,9 @@ void CScene::DrawLumpWindows() {
         
         LumpDef_t lumpDef = this->m_pBsp->GetLumps()[i];
 
-        ImGui::Begin(lumpDef.name, &this->m_abOpenWindows[i]);
-        this->m_pBsp->DrawLumpInspectWindow(i);
+        if( ImGui::Begin( lumpDef.name, &this->m_abOpenWindows[i] ) ) {
+            this->m_pBsp->DrawLumpInspectWindow(i);
+        }
         ImGui::End();
     }
 }

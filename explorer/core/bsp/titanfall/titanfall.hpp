@@ -40,4 +40,6 @@ class CTitanfallBsp : public IBsp {
         virtual void                        DrawLumpInspectWindow( int index );
         virtual std::vector<DrawableType_t> GetDrawableTypes();
         virtual void                        SetRendererMeshes( int id );
+
+        void DrawWindow_Meshes();
 };
