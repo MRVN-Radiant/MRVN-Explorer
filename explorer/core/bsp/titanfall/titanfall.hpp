@@ -22,6 +22,8 @@ class CTitanfallBsp : public IBsp {
         std::vector<uint16_t>                   m_lmpMeshIndices;
         std::vector<Titanfall::Mesh_t>          m_lmpMeshes;
         std::vector<Titanfall::MaterialSort_t>  m_lmpMaterialSorts;
+
+        void DrawWindow_Meshes();
     public:
         CTitanfallBsp(const char *filename) : IBsp(filename) { // g++ wont let me define this in the .cpp ???
             CopyLump( (int)eTitanfallLumps::VERTICES,        m_lmpVertices );
@@ -40,6 +42,4 @@ class CTitanfallBsp : public IBsp {
         virtual void                        DrawLumpInspectWindow( int index );
         virtual std::vector<DrawableType_t> GetDrawableTypes();
         virtual void                        SetRendererMeshes( int id );
-
-        void DrawWindow_Meshes();
 };
