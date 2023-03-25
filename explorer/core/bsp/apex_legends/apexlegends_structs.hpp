@@ -5,7 +5,7 @@
 #pragma once
 
 #include "../../../utils/math.hpp"
-
+#undef PLANES
 namespace ApexLegends {
     struct VertexUnlit_t {
         uint32_t  vertexIndex;
@@ -58,7 +58,7 @@ namespace ApexLegends {
     };
 }
 
-enum class eApexLegendsLumps {
+enum class eApexLegendsLumps : int {
     ENTITIES                        = 0,
     PLANES                          = 1,
     TEXTURE_DATA                    = 2,

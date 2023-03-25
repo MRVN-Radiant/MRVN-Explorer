@@ -9,9 +9,9 @@ CMainWindow::CMainWindow() {
     // Init GLFW
     if (!glfwInit())
         exit(-1);
-    
+
     LOG_GUI_INFO("GLFW Initilazed")
-    
+
     const char* glsl_version = "#version 130";
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
@@ -166,7 +166,7 @@ void CMainWindow::DrawMenuBar() {
             ImGui::MenuItem( "About", NULL, &m_bDrawAboutModal );
             ImGui::MenuItem( "Controls", NULL, &m_bDrawControlsModal );
             ImGui::Separator();
-            if( ImGui::MenuItem("Error test") ) { ERROR( "Test error modal\nSecond line!" ) }
+            if( ImGui::MenuItem("Error test") ) { SHOW_ERROR( "Test error modal\nSecond line!" ) }
             ImGui::Separator();
             ImGui::MenuItem( "Demo window", NULL, &m_bDrawDemoWindow );
             ImGui::EndMenu();
@@ -197,7 +197,7 @@ void CMainWindow::DrawMenuBar() {
                     LOG_EXPLORER_INFO("Remove scene with id: {}", scene->ID())
                     //scene->Remove();
                 }
-                
+
                 ImGui::PopID();
             }
 
@@ -246,7 +246,7 @@ void CMainWindow::DrawFileInfo() {
 void CMainWindow::DrawViewportControl() {
     if ( !m_bDrawViewportControlWindow )
         return;
-    
+
     ImGui::Begin( "Viewport Control", &m_bDrawViewportControlWindow );
     if( g_pScene ) {
         g_pScene->DrawViewportOptions();
@@ -259,10 +259,10 @@ void CMainWindow::DrawViewportControl() {
 void CMainWindow::DrawConsole() {
     if( !m_bDrawConsoleWindow )
         return;
-    
+
     static bool bAutoScroll = true;
     static int  iTestLogCount = 314;
-    
+
     ImGui::Begin( "Console", &m_bDrawConsoleWindow, ImGuiWindowFlags_MenuBar );
 
     if (ImGui::BeginMenuBar()) {
@@ -280,7 +280,7 @@ void CMainWindow::DrawConsole() {
 
     if( bAutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
         ImGui::SetScrollHereY(1.0f);
-    
+
     ImGui::EndChild();
 
     ImGui::End();
@@ -292,7 +292,7 @@ void CMainWindow::DrawDebugOverlay() {
 
     ImGuiIO& io = ImGui::GetIO();
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
-    
+
     const float PAD = 10.0f;
     const ImGuiViewport* viewport = ImGui::GetMainViewport();
     ImVec2 work_pos = viewport->WorkPos; // Use work area to avoid menu-bar/task-bar, if any!
@@ -304,7 +304,7 @@ void CMainWindow::DrawDebugOverlay() {
     window_pos_pivot.y = 0.0f;
     ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
     window_flags |= ImGuiWindowFlags_NoMove;
-    
+
 
     ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
     if (ImGui::Begin("Debug Overlay", NULL, window_flags))
@@ -396,13 +396,13 @@ void CMainWindow::DrawFileChooserModal() {
                 // Skip hidden files
                 if(d.starts_with("."))
                     continue;
-                
+
                 // Skip files
                 if(!fs::is_directory(dir))
                     continue;
 
                 if( ImGui::Button(d.c_str()) ) {
-                    g_szFileChooserModal = dir.path();
+                    g_szFileChooserModal = dir.path().string();
                 }
             }
             ImGui::EndChild();
@@ -417,13 +417,13 @@ void CMainWindow::DrawFileChooserModal() {
             ImGui::BeginChild("right-pane",ImVec2(0, size.y), true);
 
             if( ImGui::Selectable("..") ) {
-                g_szFileChooserModal = path.parent_path();
+                g_szFileChooserModal = path.parent_path().string();
             }
 
             int i = 0;
             for( auto const &dir : fs::directory_iterator{path}) {
                 int prefix = path.string().length();
-                
+
                 if( path.parent_path() != path )
                     prefix++;
 
@@ -432,17 +432,17 @@ void CMainWindow::DrawFileChooserModal() {
                 // Skip hidden files and non bsp files
                 if( d.starts_with(".") && bHideHidden || !fs::is_directory(dir) && dir.path().extension() != ".bsp" )
                     continue;
-                
+
                 std::string name;
                 if(fs::is_directory(dir))
                     name = "[dir] ";
-                
+
                 name += d.c_str();
 
                 if( ImGui::Selectable(name.c_str(), iSelectedIndex == i ) ) {
                     iSelectedIndex = i;
                     if(fs::is_directory(dir)) {
-                        g_szFileChooserModal = dir.path();
+                        g_szFileChooserModal = dir.path().string();
                         iSelectedIndex = -1;
                     } else {
                         szSelectedFile = dir.path().string();
@@ -467,7 +467,7 @@ void CMainWindow::DrawFileChooserModal() {
             std::shared_ptr<CScene> pTempScene = std::make_shared<CScene>(szSelectedFile.c_str());
             if( pTempScene->IsValid() )
                 g_vecpScenes.emplace_back( pTempScene );
-            
+
             ImGui::CloseCurrentPopup();
         }
         if( iSelectedIndex == -1 ) { ImGui::EndDisabled(); }
