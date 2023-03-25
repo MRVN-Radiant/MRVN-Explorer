@@ -32,6 +32,9 @@ jobs:
       with:
         install: ${{ matrix.prefix }}-spdlog ${{ matrix.prefix }}-mesa ${{ matrix.prefix }}-glfw cmake make
         msystem: ${{ matrix.msystem }}
+        path-type: minimal
+        release: false
+        update: false
     
     - uses: actions/checkout@v3
       with:
