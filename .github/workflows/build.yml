@@ -45,8 +45,8 @@ jobs:
 
     - name: Build
       run: |
-      cmake --build .
-      unzip winlibs.zip -d ./build
+        cmake --build .
+        unzip winlibs.zip -d ./build
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
