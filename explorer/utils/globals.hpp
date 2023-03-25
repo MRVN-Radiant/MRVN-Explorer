@@ -1,3 +1,7 @@
+/*
+    This file is part of MRVN-Explorer under the MIT license
+    Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
+*/
 #pragma once
 
 #include <memory>
@@ -14,7 +18,7 @@ namespace fs = std::filesystem;
 inline std::string g_szErrorModal = "";
 inline bool        g_bOpenErrorModal = false;
 
-#define ERROR( str ) g_bOpenErrorModal = true; g_szErrorModal = str;
+#define SHOW_ERROR( str ) g_bOpenErrorModal = true; g_szErrorModal = str;
 
 //
 inline std::string g_szFileChooserModal = "";

@@ -1,7 +1,11 @@
+/*
+    This file is part of MRVN-Explorer under the MIT license
+    Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
+*/
 #pragma once
 
 #include "../../../utils/math.hpp"
-
+#undef PLANES
 namespace Titanfall {
     struct VertexUnlit_t {
         uint32_t  vertexIndex;
@@ -67,7 +71,7 @@ namespace Titanfall {
     };
 }
 
-enum class eTitanfallLumps {
+enum class eTitanfallLumps : int {
     ENTITIES                        = 0,
     PLANES                          = 1,
     TEXTURE_DATA                    = 2,

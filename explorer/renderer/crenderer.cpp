@@ -1,3 +1,7 @@
+/*
+    This file is part of MRVN-Explorer under the MIT license
+    Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
+*/
 #include "crenderer.hpp"
 
 
@@ -70,8 +74,7 @@ void CRenderer::Update() {
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indexBuffer );
     glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(RenderIndex_t) * g_vecRenderIndices.size(), &g_vecRenderIndices.front(), GL_STATIC_DRAW );
 
-    glUseProgram( GetDefaultShader()->GetID() );
-
+    GetDefaultShader()->Use();
 
     glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( RenderVertex_t ), (void*)offsetof( RenderVertex_t, position ) );
     glEnableVertexAttribArray( 0 );

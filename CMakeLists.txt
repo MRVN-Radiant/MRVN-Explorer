@@ -1,3 +1,5 @@
+# This file is part of MRVN-Explorer under the MIT license
+# Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
 cmake_minimum_required( VERSION 3.25 )
 
 project( explorer )
@@ -17,8 +19,12 @@ target_sources( explorer
                     explorer/utils/logging.cpp
                     explorer/core/cscene.cpp
                     explorer/core/bsp/ibsp.cpp
-                    explorer/core/bsp/apex_legends/capexlegendsbsp.cpp
-                    explorer/core/bsp/titanfall/ctitanfallbsp.cpp
+                    explorer/core/bsp/apex_legends/apexlegends.cpp
+                    explorer/core/bsp/apex_legends/apexlegends_render.cpp
+                    explorer/core/bsp/apex_legends/apexlegends_windows.cpp
+                    explorer/core/bsp/titanfall/titanfall.cpp
+                    explorer/core/bsp/titanfall/titanfall_render.cpp
+                    explorer/core/bsp/titanfall/titanfall_windows.cpp
                     explorer/renderer/crenderer.cpp
                     explorer/renderer/ccamera.cpp
 )
@@ -56,6 +62,8 @@ target_link_libraries( explorer glfw )
 find_package( OpenGL REQUIRED )
 target_link_libraries( explorer ${OPENGL_LIBRARIES} )
 
+
+#include(FindGLEW)
 find_package( GLEW REQUIRED )
 target_link_libraries( explorer ${GLEW_LIBRARIES} )
 add_library(GLEW STATIC IMPORTED ${GLEW_LIBRARIES})
