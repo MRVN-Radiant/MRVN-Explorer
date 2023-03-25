@@ -22,7 +22,7 @@ jobs:
         msystem: MINGW64
     
     - name: Configure CMake
-      run: cmake -G "MinGW Makefiles"
+      run: cmake -G "Unix Makefiles"
 
     - name: Build
       run: cmake --build .
