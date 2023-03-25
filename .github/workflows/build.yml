@@ -30,7 +30,7 @@ jobs:
     steps:
     - uses: msys2/setup-msys2@v2
       with:
-        install: ${{ matrix.prefix }}-spdlog ${{ matrix.prefix }}-mesa ${{ matrix.prefix }}-glew ${{ matrix.prefix }}-glfw cmake make
+        install: ${{ matrix.prefix }}-spdlog ${{ matrix.prefix }}-mesa ${{ matrix.prefix }}-glew ${{ matrix.prefix }}-glm ${{ matrix.prefix }}-glfw cmake make
         msystem: ${{ matrix.msystem }}
         path-type: minimal
         release: false
