@@ -8,40 +8,41 @@ env:
 jobs:
   build-windows:
     runs-on: windows-2022
-    
+
     defaults:
       run:
         shell: msys2 {0}
-    
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - uses: msys2/setup-msys2@v2
       with:
-        install: mingw-w64-x86_64-spdlog mingw-w64-x86_64-mesa mingw-w64-x86_64-glfw cmake make
+        install: mingw-w64-x86_64-spdlog mingw-w64-x86_64-mesa mingw-w64-x86_64-glfw cmake make unzip
         msystem: MINGW64
-    
+
     - name: Configure CMake
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_SYSTEM_NAME=Windows
 
     - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-      
+      run: |
+      cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      unzip winlibs.zip -d ./build
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Explorer-windows
         path: ${{github.workspace}}/build/*
         if-no-files-found: error
-    
-    
+
+
   build-linux:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Install packages
       run: |
           sudo apt-get -qq update
@@ -52,9 +53,8 @@ jobs:
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
-      # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-      
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
