@@ -7,21 +7,7 @@ env:
 
 jobs:
   windows-msys:
-    name: ${{ matrix.config }} Windows ${{ matrix.arch }}
     runs-on: windows-2019
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: [x86, x86_64]
-        cc: [gcc]
-        include:
-          - arch: x86
-            msystem: MINGW32
-            prefix: mingw-w64-i686
-
-          - arch: x86_64
-            msystem: MINGW64
-            prefix: mingw-w64-x86_64
 
     defaults:
       run:
@@ -30,8 +16,8 @@ jobs:
     steps:
     - uses: msys2/setup-msys2@v2
       with:
-        install: ${{ matrix.prefix }}-spdlog ${{ matrix.prefix }}-mesa ${{ matrix.prefix }}-glew ${{ matrix.prefix }}-glm ${{ matrix.prefix }}-glfw cmake make
-        msystem: ${{ matrix.msystem }}
+        install: mingw-w64-x86_64-spdlog mingw-w64-x86_64-mesa mingw-w64-x86_64-glew mingw-w64-x86_64-glm mingw-w64-x86_64-glfw cmake make
+        msystem: MINGW64
         path-type: minimal
         release: false
         update: false
