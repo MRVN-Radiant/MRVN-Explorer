@@ -367,7 +367,8 @@ void CMainWindow::DrawFileChooserModal() {
         size.y -= 82.0;
 
         fs::path path( g_szFileChooserModal.c_str() );
-        fs::path homePath( std::getenv("HOME") );
+
+        fs::path homePath( GetHomePath() );
 
         // Current path
         if( g_szFileChooserModal.empty() )
@@ -391,7 +392,7 @@ void CMainWindow::DrawFileChooserModal() {
         {
             ImGui::BeginChild("left-pane", ImVec2(200, size.y), true);
             for( auto const &dir : fs::directory_iterator{homePath}) {
-                std::string d = dir.path().string().substr(homePath.string().length() + 1);
+                std::string d = dir.path().string().substr(homePath.string().length());
 
                 // Skip hidden files
                 if(d.starts_with("."))
@@ -457,7 +458,7 @@ void CMainWindow::DrawFileChooserModal() {
 
 
 
-        //ImGui::Separator();
+        ImGui::Separator();
         ImGui::Checkbox("Hide hidden", &bHideHidden);
         ImGui::SameLine();
         if( ImGui::Button("Cancel") ) { ImGui::CloseCurrentPopup(); }

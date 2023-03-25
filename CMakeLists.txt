@@ -8,11 +8,14 @@ project( explorer )
 set( CMAKE_CXX_STANDARD 20 )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build )
 
+if(WIN32)
+    add_compile_definitions(WIN32)
+endif()
 
 # Executable
 add_executable( explorer )
 
-target_sources( explorer 
+target_sources( explorer
                 PRIVATE
                     explorer/main.cpp
                     explorer/ui/cmainwindow.cpp
