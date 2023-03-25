@@ -1,0 +1,68 @@
+name: Build
+
+on: [ push, pull_request, workflow_dispatch ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  windows-msys:
+    runs-on: windows-2019
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        install: mingw-w64-x86_64-spdlog mingw-w64-x86_64-mesa mingw-w64-x86_64-glew mingw-w64-x86_64-glm mingw-w64-x86_64-glfw cmake make
+        msystem: MINGW64
+        path-type: minimal
+        release: false
+        update: false
+
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Configure CMake
+      run: cmake . -G "MinGW Makefiles"
+
+    - name: Build
+      run: |
+        cmake --build .
+        unzip winlibs.zip -d ./build
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Explorer-windows
+        path: ${{github.workspace}}/build/*
+        if-no-files-found: error
+
+
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install packages
+      run: |
+          sudo apt-get -qq update
+          sudo apt-get install -y libspdlog-dev libglfw3-dev libglew-dev libgl-dev libglm-dev mesa-common-dev libgl1-mesa-dev libx11-dev
+          sudo apt-get install -y libglfw3 libglew2.2
+
+    - name: Configure CMake
+      run: cmake . -G "Unix Makefiles"
+
+    - name: Build
+      run: cmake --build .
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Explorer-linux
+        path: ${{github.workspace}}/build/*
+        if-no-files-found: error
