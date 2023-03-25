@@ -6,20 +6,36 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  build-windows:
-    runs-on: windows-2022
+  windows-msys:
+    name: ${{ matrix.config }} Windows ${{ matrix.arch }}
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x86, x86_64]
+        cc: [gcc]
+        include:
+          - arch: x86
+            msystem: MINGW32
+            prefix: mingw-w64-i686
+
+          - arch: x86_64
+            msystem: MINGW64
+            prefix: mingw-w64-x86_64
     
     defaults:
       run:
         shell: msys2 {0}
     
     steps:
-    - uses: actions/checkout@v3
-    
     - uses: msys2/setup-msys2@v2
       with:
-        install: mingw-w64-x86_64-spdlog mingw-w64-x86_64-mesa mingw-w64-x86_64-glfw cmake make
-        msystem: MINGW64
+        install: ${{ matrix.prefix }}-spdlog ${{ matrix.prefix }}-mesa ${{ matrix.prefix }}-glfw cmake make
+        msystem: ${{ matrix.msystem }}
+    
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
     
     - name: Configure CMake
       run: cmake . -G "MinGW Makefiles"
@@ -40,7 +56,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Install packages
       run: |
           sudo apt-get -qq update
@@ -52,7 +68,7 @@ jobs:
 
     - name: Build
       run: cmake --build .
-      
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
