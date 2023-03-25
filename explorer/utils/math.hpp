@@ -1,3 +1,7 @@
+/*
+    This file is part of MRVN-Explorer under the MIT license
+    Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
+*/
 #pragma once
 
 template<typename T>
@@ -32,3 +36,9 @@ struct Vector2 {
 
 using Vector3f = Vector3<float>;
 using Vector2f = Vector2<float>;
+
+template<typename T>
+struct AABB {
+    Vector3<T> mins;
+    Vector3<T> maxs;
+};

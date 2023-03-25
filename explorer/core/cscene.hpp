@@ -1,3 +1,7 @@
+/*
+    This file is part of MRVN-Explorer under the MIT license
+    Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
+*/
 #pragma once
 
 #include <memory>
@@ -6,8 +10,8 @@
 #include "imgui.h"
 
 #include "bsp/ibsp.hpp"
-#include "bsp/apex_legends/capexlegendsbsp.hpp"
-#include "bsp/titanfall/ctitanfallbsp.hpp"
+#include "bsp/apex_legends/apexlegends.hpp"
+#include "bsp/titanfall/titanfall.hpp"
 
 #include "../utils/logging.hpp"
 #include "../utils/globals.hpp"
@@ -21,6 +25,8 @@ class CScene {
 
         std::unique_ptr<IBsp>    m_pBsp;
         std::shared_ptr<CCamera> m_pCamera;
+
+        bool m_abOpenWindows[128];
 
         // Settings
         bool m_bCullBackFaces;
@@ -43,6 +49,7 @@ class CScene {
 
         void DrawLumpsList( bool hideUnused );
         void DrawViewportOptions();
+        void DrawLumpWindows();
 
         void UpdateRenderMeshes( int id );
 };

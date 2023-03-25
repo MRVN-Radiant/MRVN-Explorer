@@ -1,3 +1,7 @@
+/*
+    This file is part of MRVN-Explorer under the MIT license
+    Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
+*/
 #pragma once
 
 #include <cstdlib>
@@ -50,3 +54,5 @@ class CMainWindow {
         void Loop();
         void Close();
 };
+
+inline std::unique_ptr<CMainWindow> g_pMainWindow;

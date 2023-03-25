@@ -1,3 +1,7 @@
+/*
+    This file is part of MRVN-Explorer under the MIT license
+    Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
+*/
 #include "cscene.hpp"
 
 
@@ -7,21 +11,21 @@ CScene::CScene(const char *filename) {
     LOG_FILESYSTEM_INFO("Opening: {}", filename)
 
     if(!fs::exists(filePath)) {
-        ERROR("Couldn't find selected file!")
+        SHOW_ERROR("Couldn't find selected file!")
         this->m_bValid = false;
         return;
     }
 
     // This should never happen
     if(fs::is_directory(filePath)) {
-        ERROR("Selected file is a directory!")
+        SHOW_ERROR("Selected file is a directory!")
         this->m_bValid = false;
         return;
     }
 
 
     // We filter to only .bsp files so at this point we can read it fine
-    this->m_szName = filePath.filename();
+    this->m_szName = filePath.filename().string();
     this->m_bOpen = true;
     this->m_bValid = true;
     if( g_vecpScenes.size() != 0 ) {
@@ -40,7 +44,7 @@ CScene::CScene(const char *filename) {
 
     if( strncmp(header.ident, "rBSP", 4) != 0 ) {
         LOG_EXPLORER_ERROR("Unknown BSP ident: {}", header.ident)
-        ERROR("Unknown BSP ident!")
+        SHOW_ERROR("Unknown BSP ident!")
         this->m_bValid = false;
         return;
     }
@@ -56,7 +60,7 @@ CScene::CScene(const char *filename) {
         this->m_pBsp = std::make_unique<CApexLegendsBsp>(filename);
     } else {
         LOG_EXPLORER_ERROR("Unknown BSP version: {}", header.version)
-        ERROR("Unknown BSP version!")
+        SHOW_ERROR("Unknown BSP version!")
         this->m_bValid = false;
     }
 
@@ -139,7 +143,7 @@ void CScene::DrawLumpsList( bool hideUnused ) {
         ImGui::TableNextColumn();
         if( !lump.canInspect ) { ImGui::BeginDisabled(); }
         ImGui::PushID(i);
-        ImGui::Button( "Inspect" );
+        if( ImGui::Button( "Inspect" ) ) { m_abOpenWindows[i] = true; }
         ImGui::PopID();
         if( !lump.canInspect ) { ImGui::EndDisabled(); }
         ImGui::TableNextRow();
@@ -147,6 +151,19 @@ void CScene::DrawLumpsList( bool hideUnused ) {
         i++;
     }
     ImGui::EndTable();
+}
+
+void CScene::DrawLumpWindows() {
+    for( int i = 0; i < 128; i++ ) {
+        if( !this->m_abOpenWindows[i] )
+            continue;
+        
+        LumpDef_t lumpDef = this->m_pBsp->GetLumps()[i];
+
+        ImGui::Begin(lumpDef.name, &this->m_abOpenWindows[i]);
+        this->m_pBsp->DrawLumpInspectWindow(i);
+        ImGui::End();
+    }
 }
 
 void CScene::DrawViewportOptions() {

@@ -1,4 +1,8 @@
-#version 130
+/*
+    This file is part of MRVN-Explorer under the MIT license
+    Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
+*/
+#version 330
 
 in vec3 normal;
 
