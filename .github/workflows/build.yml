@@ -22,11 +22,10 @@ jobs:
         msystem: MINGW64
     
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_SYSTEM_NAME=Windows
+      run: cmake -G "MinGW Makefiles"
 
     - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build .
       
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
@@ -49,11 +48,10 @@ jobs:
           sudo apt-get install -y libglfw3 libglew2.2
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -G "Unix Makefiles"
 
     - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build .
       
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
