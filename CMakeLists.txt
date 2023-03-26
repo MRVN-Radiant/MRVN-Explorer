@@ -54,7 +54,9 @@ target_include_directories( explorer
                             PUBLIC ${IMGUI_DIR}/backends
 )
 
-#add_library( IMGUI STATIC ${IMGUI_DIR} )
+if(WIN32)
+    target_link_libraries( explorer -static -lpthread )
+endif()
 
 
 # GLFW
