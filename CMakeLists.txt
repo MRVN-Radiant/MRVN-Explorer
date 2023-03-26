@@ -55,7 +55,11 @@ target_include_directories( explorer
 )
 
 if(WIN32)
-    target_link_libraries( explorer -static -lpthread )
+    target_link_libraries( explorer 
+                           -static-libgcc
+                           -static-libstdc++
+                           -static -lpthread
+                         )
 endif()
 
 
