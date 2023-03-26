@@ -10,8 +10,8 @@ An OpenGL / ImGui respawn bsp viewer
 - Open the MingW shell
 - Run:
   ```sh
-  pacman -S  {make,cmake}
-  pacman -S mingw-w64-x86_64-{glm,glew,spdlog,glfw3}
+  pacman -S {make,cmake}
+  pacman -S mingw-w64-x86_64-{glm,glew,spdlog,glfw,cmake}
   ```
 
 ### Windows
