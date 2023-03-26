@@ -11,21 +11,21 @@ CScene::CScene(const char *filename) {
     LOG_FILESYSTEM_INFO("Opening: {}", filename)
 
     if(!fs::exists(filePath)) {
-        ERROR("Couldn't find selected file!")
+        SHOW_ERROR("Couldn't find selected file!")
         this->m_bValid = false;
         return;
     }
 
     // This should never happen
     if(fs::is_directory(filePath)) {
-        ERROR("Selected file is a directory!")
+        SHOW_ERROR("Selected file is a directory!")
         this->m_bValid = false;
         return;
     }
 
 
     // We filter to only .bsp files so at this point we can read it fine
-    this->m_szName = filePath.filename();
+    this->m_szName = filePath.filename().string();
     this->m_bOpen = true;
     this->m_bValid = true;
     if( g_vecpScenes.size() != 0 ) {
@@ -44,7 +44,7 @@ CScene::CScene(const char *filename) {
 
     if( strncmp(header.ident, "rBSP", 4) != 0 ) {
         LOG_EXPLORER_ERROR("Unknown BSP ident: {}", header.ident)
-        ERROR("Unknown BSP ident!")
+        SHOW_ERROR("Unknown BSP ident!")
         this->m_bValid = false;
         return;
     }
@@ -60,7 +60,7 @@ CScene::CScene(const char *filename) {
         this->m_pBsp = std::make_unique<CApexLegendsBsp>(filename);
     } else {
         LOG_EXPLORER_ERROR("Unknown BSP version: {}", header.version)
-        ERROR("Unknown BSP version!")
+        SHOW_ERROR("Unknown BSP version!")
         this->m_bValid = false;
     }
 

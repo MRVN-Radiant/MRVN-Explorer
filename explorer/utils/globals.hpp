@@ -10,6 +10,16 @@
 
 namespace fs = std::filesystem;
 
+
+inline std::string GetHomePath() {
+    #if WIN32
+    return "C:\\";
+    #else
+    return std::getenv("HOME");
+    #endif
+}
+
+
 #define HAS_FLAG( value, flag ) (value & flag) == flag
 
 // ImGui requiers the call to open the popup and the call to draw the popup
@@ -18,10 +28,10 @@ namespace fs = std::filesystem;
 inline std::string g_szErrorModal = "";
 inline bool        g_bOpenErrorModal = false;
 
-#define ERROR( str ) g_bOpenErrorModal = true; g_szErrorModal = str;
+#define SHOW_ERROR( str ) g_bOpenErrorModal = true; g_szErrorModal = str;
 
 //
 inline std::string g_szFileChooserModal = "";
 inline bool        g_bOpenFileChooseModal = false;
 
-#define OPEN_FILE_CHOOSER() g_bOpenFileChooseModal = true; g_szFileChooserModal = std::getenv("HOME");
+#define OPEN_FILE_CHOOSER() g_bOpenFileChooseModal = true; g_szFileChooserModal = GetHomePath();

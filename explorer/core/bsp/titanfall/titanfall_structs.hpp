@@ -5,7 +5,7 @@
 #pragma once
 
 #include "../../../utils/math.hpp"
-
+#undef PLANES
 namespace Titanfall {
     struct VertexUnlit_t {
         uint32_t  vertexIndex;
@@ -71,7 +71,7 @@ namespace Titanfall {
     };
 }
 
-enum class eTitanfallLumps {
+enum class eTitanfallLumps : int {
     ENTITIES                        = 0,
     PLANES                          = 1,
     TEXTURE_DATA                    = 2,
