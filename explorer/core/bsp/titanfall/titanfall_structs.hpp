@@ -69,6 +69,13 @@ namespace Titanfall {
         int16_t  unk;
         int32_t  vertexOffset;
     };
+
+    // 0x53
+    struct LightmapHeader_t {
+        int32_t type;
+        int16_t width;
+        int16_t height;
+    };
 }
 
 enum class eTitanfallLumps : int {
