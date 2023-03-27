@@ -1,6 +1,6 @@
 # This file is part of MRVN-Explorer under the MIT license
 # Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
-cmake_minimum_required( VERSION 3.25 )
+cmake_minimum_required( VERSION 3.12 )
 
 project( explorer )
 
