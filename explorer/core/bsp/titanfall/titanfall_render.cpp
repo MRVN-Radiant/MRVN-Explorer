@@ -22,28 +22,33 @@ void CTitanfallBsp::SetRendererMeshes( int id ) {
         RenderVertex_t &rv = g_vecRenderVertices.emplace_back();
         rv.position = this->m_lmpVertices[vtx.vertexIndex];
         rv.normal = this->m_lmpVertexNormals[vtx.normalIndex];
+        rv.UV = vtx.uv0;
     }
     // Unlit
     for( Titanfall::VertexUnlit_t &vtx : this->m_lmpUnlitVertices ) {
         RenderVertex_t &rv = g_vecRenderVertices.emplace_back();
         rv.position = this->m_lmpVertices[vtx.vertexIndex];
         rv.normal = this->m_lmpVertexNormals[vtx.normalIndex];
+        rv.UV = vtx.uv0;
     }
     // Lit Bump
     for( Titanfall::VertexLitBump_t &vtx : this->m_lmpLitBumpVertices ) {
         RenderVertex_t &rv = g_vecRenderVertices.emplace_back();
         rv.position = this->m_lmpVertices[vtx.vertexIndex];
         rv.normal = this->m_lmpVertexNormals[vtx.normalIndex];
+        rv.UV = vtx.uv0;
     }
     // Unlit TS
     for( Titanfall::VertexUnlitTS_t &vtx : this->m_lmpUnlitTSVertices ) {
         RenderVertex_t &rv = g_vecRenderVertices.emplace_back();
         rv.position = this->m_lmpVertices[vtx.vertexIndex];
         rv.normal = this->m_lmpVertexNormals[vtx.normalIndex];
+        rv.UV = vtx.uv0;
     }
 
     for( Titanfall::Mesh_t &tfMesh : this->m_lmpMeshes ) {
         RenderMesh_t &rdMesh = g_vecRenderMehses.emplace_back();
+        rdMesh.pMaterial = CMaterial::AllocateNewMaterial();
         rdMesh.triStart = g_vecRenderIndices.size();
 
         for( uint16_t idx = 0; idx < tfMesh.triCount * 3; idx++ ) {

@@ -56,9 +56,13 @@ void CRenderer::Render(GLFWwindow *window) {
         if( !(rm.flags & g_iRenderFlags) )
             continue;
 
-        glm::fvec3 color = colors[i % 6];
-        unsigned int colorLoc = glGetUniformLocation( g_vecpShaders[0]->GetID(), "base" );
-        glUniform3fv( colorLoc, 1, glm::value_ptr( color ) );
+        // glm::fvec3 color = colors[i % 6];
+        // unsigned int colorLoc = glGetUniformLocation( g_vecpShaders[0]->GetID(), "base" );
+        // glUniform3fv( colorLoc, 1, glm::value_ptr( color ) );
+        // unsigned int loc = glGetUniformLocation( g_vecpShaders[0]->GetID(), "CurrentTexture" );
+        // glUniform1i( loc, 0 );
+
+        rm.pMaterial->Use();
 
         glDrawElements( GL_TRIANGLES, rm.triCount, GL_UNSIGNED_INT, (void*)(sizeof(GLuint) * rm.triStart ) );
     }
@@ -68,7 +72,7 @@ void CRenderer::Update() {
     LOG_OPENGL_INFO("CRenderer::Update: Updating to {} vertices using {} triangles", g_vecRenderVertices.size(), g_vecRenderIndices.size() / 3)
     glGenBuffers( 1, &vertexBuffer );
     glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
-    glBufferData( GL_ARRAY_BUFFER, sizeof( RenderVertex_t ) * g_vecRenderVertices.size(), &g_vecRenderVertices.front(), GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, sizeof(RenderVertex_t) * g_vecRenderVertices.size(), &g_vecRenderVertices.front(), GL_STATIC_DRAW );
 
     glGenBuffers( 1, &indexBuffer );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, indexBuffer );
@@ -80,6 +84,8 @@ void CRenderer::Update() {
     glEnableVertexAttribArray( 0 );
     glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( RenderVertex_t ), (void*)offsetof( RenderVertex_t, normal ) );
     glEnableVertexAttribArray( 1 );
+    glVertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof( RenderVertex_t ), (void*)offsetof( RenderVertex_t, UV ) );
+    glEnableVertexAttribArray( 2 );
 }
 
 void CRenderer::Clear() {

@@ -111,6 +111,8 @@ void CTitanfallBsp::DrawWindow_LightmapHeaders() {
 
     ImGui::Separator();
 
+    std::size_t offset = 0;
+
     ImGui::BeginTable("Meshes", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg );
     ImGui::TableSetupColumn( "Field" );
     ImGui::TableSetupColumn( "Value" );
@@ -140,12 +142,30 @@ void CTitanfallBsp::DrawWindow_LightmapHeaders() {
             ImGui::Text("height");
             ImGui::TableNextColumn();
             ImGui::Text("%i", header.height);
+            ImGui::TableNextColumn();
+
+            if( ImGui::TreeNode( "INSPECT" ) ) {
+
+                GLuint image_texture;
+                glGenTextures(1, &image_texture);
+                glBindTexture(GL_TEXTURE_2D, image_texture);
+
+                glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+                glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+                glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, header.width, header.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, this->m_lmpLightmapDataSky.data() + offset );
+                
+                ImGui::Image( (void*)(intptr_t)image_texture, ImVec2( header.width, header.height ) );
+                ImGui::TableNextRow();
+                ImGui::TreePop();
+            }
 
             ImGui::TreePop();
         } else {
             ImGui::TableNextColumn();
         }
         
+        offset += header.width + header.height;
         ImGui::TableNextRow();
     }
     

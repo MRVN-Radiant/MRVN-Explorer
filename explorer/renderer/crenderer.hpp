@@ -16,6 +16,7 @@
 
 #include "cshader.hpp"
 #include "ccamera.hpp"
+#include "cmaterial.hpp"
 #include "../utils/math.hpp"
 #include "../utils/globals.hpp"
 #include "../utils/logging.hpp"
@@ -40,12 +41,15 @@ class CRenderer {
 struct RenderVertex_t {
     Vector3f position;
     Vector3f normal;
+    Vector2f UV;
 };
 
 struct RenderMesh_t {
     int triStart;
     int triCount;
     int flags;
+
+    std::shared_ptr<CMaterial> pMaterial;
 };
 
 using RenderIndex_t = uint32_t;

@@ -13,8 +13,8 @@ CMainWindow::CMainWindow() {
     LOG_GUI_INFO("GLFW Initilazed")
 
     const char* glsl_version = "#version 130";
-    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
     // Create window
     m_bShouldClose = false;
@@ -314,6 +314,7 @@ void CMainWindow::DrawDebugOverlay() {
             ImGui::Text("Scene name: %s", g_pScene->Name().c_str());
             ImGui::Text("Scene id: %i", g_pScene->ID());
             ImGui::Text("Meshes: %i", g_vecRenderMehses.size());
+            ImGui::Text("Materials: %i", g_vecMaterials.size());
         } else {
             ImGui::Text("No scenes open!");
         }
