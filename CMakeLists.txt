@@ -1,6 +1,6 @@
 # This file is part of MRVN-Explorer under the MIT license
 # Source code & license avalible at https://github.com/MRVN-Radiant/MRVN-Explorer
-cmake_minimum_required( VERSION 3.25 )
+cmake_minimum_required( VERSION 3.12 )
 
 project( explorer )
 
@@ -78,5 +78,7 @@ find_package( spdlog REQUIRED )
 target_link_libraries( explorer spdlog::spdlog_header_only)
 
 # Copy shaders to build dir
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders/basic.frag DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders/basic.vert DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders)
+add_custom_target(shaders ALL
+                  COMMAND ${CMAKE_COMMAND} -E copy_directory
+                  ${CMAKE_SOURCE_DIR}/shaders ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shaders
+                 )

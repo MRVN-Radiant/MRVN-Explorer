@@ -20,5 +20,7 @@ void main()
 	// b!scuit gaming
 	float z = ( gl_FragCoord.z / gl_FragCoord.w );
 	z = min( z / ( 16000 ), 0.3f );
+
+	// test
 	color = mix(vec4( result, 1.0f ), vec4(1, 1, 1, 1), z);//vec4( result, 1.0f );
 }
