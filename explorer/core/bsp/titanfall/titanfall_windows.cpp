@@ -142,6 +142,18 @@ void CTitanfallBsp::DrawWindow_LightmapHeaders() {
             ImGui::Text("height");
             ImGui::TableNextColumn();
             ImGui::Text("%i", header.height);
+            ImGui::TableNextColumn();
+
+            if( ImGui::TreeNode( "INSPECT" ) ) {
+                std::string name = fmt::format("{}_lightmapheader_{}", this->GetFilename(), i);
+
+                std::shared_ptr<CMaterial> material = CMaterial::GetMaterialByName( name );
+
+                material->Use();
+                ImGui::Image( (void*)(intptr_t)material->GetID(), ImVec2( material->GetWidth(), material->GetHeight() ) );
+                ImGui::TableNextRow();
+                ImGui::TreePop();
+            }
 
             ImGui::TreePop();
         } else {

@@ -151,6 +151,6 @@ std::vector<LumpDef_t> CApexLegendsBsp::GetLumps() {
 std::vector<DrawableType_t> CApexLegendsBsp::GetDrawableTypes() {
     return {
             //    name, id
-            { "Meshes",  0 },
+            { "Meshes",  (int)eApexLegendsLumps::MESHES },
         };
 }

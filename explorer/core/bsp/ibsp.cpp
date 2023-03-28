@@ -6,7 +6,7 @@
 
 IBsp::IBsp(const char *filename) {
     LOG_EXPLORER_INFO("IBSP Constructor: {}", filename)
-
+    this->m_strFilename = filename;
 
     m_file = std::ifstream( filename, std::ios::in | std::ios::binary );
 
@@ -14,6 +14,10 @@ IBsp::IBsp(const char *filename) {
 }
 
 IBsp::~IBsp() {
+}
+
+std::string IBsp::GetFilename() {
+    return this->m_strFilename;
 }
 
 int IBsp::GetBspVersion() {

@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <map>
 
@@ -33,7 +34,7 @@ class CMaterial {
                 return g_vecMaterials[index];
             } 
 
-            unsigned char colors[numColors][3] = {
+            uint8_t colors[numColors][3] = {
                 { 0x9B, 0xEF, 0xE7 },
                 { 0x9B, 0xCE, 0xEF },
                 { 0x9B, 0xEF, 0xBD },
@@ -43,10 +44,10 @@ class CMaterial {
             };
 
             // Generates a dev texture with borders
-            unsigned char buffer[256 * 256 * 4];
+            uint8_t buffer[256 * 256 * 4];
             for( int y = 0; y < 256; y++ ) {
                 for( int x = 0; x < 256; x++ ) {
-                    unsigned char color[3] = { colors[index][0], colors[index][1], colors[index][2] };
+                    uint8_t color[3] = { colors[index][0], colors[index][1], colors[index][2] };
                     if( x < 4 || x > 251 || y < 4 || y > 251 || x > 124 && x < 126 || y > 124 && y < 126 ) {
                         color[0] = 0xFF - color[0] < 0x30 ? 0xFF : color[0] + 0x30;
                         color[1] = 0xFF - color[1] < 0x30 ? 0xFF : color[1] + 0x30;
@@ -68,7 +69,22 @@ class CMaterial {
             return material;
         }
 
-        CMaterial( unsigned char *buffer, int16_t width, int16_t height ) {
+        static std::shared_ptr<CMaterial> AllocateNewMaterial( std::string name, uint8_t *data, int width, int height) {
+            std::size_t hash = std::hash<std::string>{}(name);
+
+            if( g_vecMaterials.find( hash ) != g_vecMaterials.end() ) {
+                return g_vecMaterials[hash];
+            }
+
+
+            std::shared_ptr<CMaterial> material = std::make_shared<CMaterial>( data, width, height );
+
+            g_vecMaterials.emplace( std::make_pair( hash, material ) );
+
+            return material;
+        }
+
+        CMaterial( uint8_t *buffer, int16_t width, int16_t height ) {
             this->m_iWidth = width;
             this->m_iHeight = height;
 
@@ -87,12 +103,30 @@ class CMaterial {
             glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, this->m_iWidth, this->m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
         }
 
+        static std::shared_ptr<CMaterial> GetMaterialByName( std::string name ) {
+            std::size_t hash = std::hash<std::string>{}(name);
+
+            if( g_vecMaterials.find( hash ) != g_vecMaterials.end() ) {
+                return g_vecMaterials[hash];
+            }
+
+            return AllocateNewMaterial();
+        }
+
         void Use() {
             glBindTexture( GL_TEXTURE_2D, this->m_iTexture );
         }
 
         GLuint GetID() {
             return this->m_iTexture;
+        }
+
+        int GetWidth() {
+            return this->m_iWidth;
+        }
+
+        int GetHeight() {
+            return this->m_iHeight;
         }
 };
 

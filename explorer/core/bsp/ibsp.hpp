@@ -45,12 +45,14 @@ struct DrawableType_t {
 class IBsp {
     private:
         std::ifstream m_file;
+        std::string m_strFilename;
     public:
         Header_t m_header;
 
         IBsp(const char *filename);
         ~IBsp();
 
+        std::string GetFilename();
         int GetBspVersion();
         void CloseFile();
         template<typename T>

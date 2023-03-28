@@ -7,11 +7,20 @@
 #include "../../../utils/logging.hpp"
 
 void CApexLegendsBsp::SetRendererMeshes( int id ) {
+    LOG_OPENGL_INFO("CApexLegendsBsp::SetRendererMeshes: Set to {}", id)
+
+    switch( id ) {
+        case (int)eApexLegendsLumps::MESHES:
+            CApexLegendsBsp::SetRendererMeshes_Meshes();
+            break;
+    }
+}
+
+void CApexLegendsBsp::SetRendererMeshes_Meshes() {
     const int S_VERTEX_LIT_FLAT      = 0x00000000;
     const int S_VERTEX_LIT_BUMP      = 0x00000200;
     const int S_VERTEX_UNLIT         = 0x00000400;
     const int S_VERTEX_UNLIT_TS      = 0x00000600;
-    LOG_OPENGL_INFO("CApexLegendsBsp::SetRendererMeshes: Set to {}", id)
 
     g_pRenderer->Clear();
 

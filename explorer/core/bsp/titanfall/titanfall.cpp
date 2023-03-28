@@ -151,6 +151,6 @@ std::vector<LumpDef_t> CTitanfallBsp::GetLumps() {
 std::vector<DrawableType_t> CTitanfallBsp::GetDrawableTypes() {
     return {
         //    name, id
-        { "Meshes",  0 },
+        { "Meshes",  (int)eTitanfallLumps::MESHES },
     };
 }
