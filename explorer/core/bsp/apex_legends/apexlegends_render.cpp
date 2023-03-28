@@ -11,12 +11,15 @@ void CApexLegendsBsp::SetRendererMeshes( int id ) {
 
     switch( id ) {
         case (int)eApexLegendsLumps::MESHES:
-            CApexLegendsBsp::SetRendererMeshes_Meshes();
+            CApexLegendsBsp::SetRendererMeshes_Meshes( false );
+            break;
+        case (int)eApexLegendsLumps::LIGHTMAP_DATA_SKY:
+            CApexLegendsBsp::SetRendererMeshes_Meshes( true );
             break;
     }
 }
 
-void CApexLegendsBsp::SetRendererMeshes_Meshes() {
+void CApexLegendsBsp::SetRendererMeshes_Meshes( bool lightmaps ) {
     const int S_VERTEX_LIT_FLAT      = 0x00000000;
     const int S_VERTEX_LIT_BUMP      = 0x00000200;
     const int S_VERTEX_UNLIT         = 0x00000400;
@@ -44,7 +47,10 @@ void CApexLegendsBsp::SetRendererMeshes_Meshes() {
         RenderVertex_t &rv = g_vecRenderVertices.emplace_back();
         rv.position = this->m_lmpVertices[vtx.vertexIndex];
         rv.normal = this->m_lmpVertexNormals[vtx.normalIndex];
-        rv.UV = vtx.uv0;
+        if( lightmaps )
+            rv.UV = vtx.uv1;
+        else
+            rv.UV = vtx.uv0;
     }
     // Unlit TS
     for( ApexLegends::VertexUnlitTS_t &vtx : this->m_lmpUnlitTSVertices ) {
@@ -68,6 +74,13 @@ void CApexLegendsBsp::SetRendererMeshes_Meshes() {
                 rdMesh.flags = RENDER_FLAG_UNLIT;
             } else if( HAS_FLAG(tfMesh.flags, S_VERTEX_LIT_BUMP) ) {
                 triOffset += this->m_lmpLitFlatVertices.size() + this->m_lmpUnlitVertices.size();
+
+                int i = this->m_lmpMaterialSorts.at(tfMesh.materialOffset).lightmapIndex;
+                if( i != -1 && lightmaps ) {
+                    std::string name = fmt::format("{}_lightmapheader_{}", this->GetFilename(), i);
+                    rdMesh.pMaterial = CMaterial::GetMaterialByName(name);
+                }
+
                 rdMesh.flags = RENDER_FLAG_LITBUMP;
             } else if( HAS_FLAG(tfMesh.flags, S_VERTEX_UNLIT_TS) ) {
                 triOffset += this->m_lmpLitFlatVertices.size() + this->m_lmpUnlitVertices.size() + this->m_lmpLitBumpVertices.size();

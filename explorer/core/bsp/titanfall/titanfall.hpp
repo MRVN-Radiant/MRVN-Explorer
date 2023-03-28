@@ -26,7 +26,7 @@ class CTitanfallBsp : public IBsp {
         std::vector<Titanfall::LightmapHeader_t> m_lmpLightmapHeaders;
         std::vector<uint8_t>                     m_lmpLightmapDataSky;
 
-        void SetRendererMeshes_Meshes();
+        void SetRendererMeshes_Meshes( bool lightmaps );
 
         void DrawWindow_Meshes();
         void DrawWindow_LightmapHeaders();

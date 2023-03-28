@@ -150,7 +150,8 @@ std::vector<LumpDef_t> CTitanfallBsp::GetLumps() {
 
 std::vector<DrawableType_t> CTitanfallBsp::GetDrawableTypes() {
     return {
-        //    name, id
-        { "Meshes",  (int)eTitanfallLumps::MESHES },
+        //               name,                                       id
+        {            "Meshes",             (int)eTitanfallLumps::MESHES },
+        { "Lightmap data sky",  (int)eTitanfallLumps::LIGHTMAP_DATA_SKY },
     };
 }

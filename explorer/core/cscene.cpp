@@ -168,7 +168,7 @@ void CScene::DrawLumpWindows() {
 }
 
 void CScene::DrawViewportOptions() {
-    static int id = 0;
+    static int id = (int)eTitanfallLumps::MESHES;
     static int lastID = -1;
     for( DrawableType_t &type : this->m_pBsp->GetDrawableTypes() ) {
         ImGui::RadioButton( type.name, &id, type.id );

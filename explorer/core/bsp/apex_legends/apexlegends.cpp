@@ -150,7 +150,8 @@ std::vector<LumpDef_t> CApexLegendsBsp::GetLumps() {
 
 std::vector<DrawableType_t> CApexLegendsBsp::GetDrawableTypes() {
     return {
-            //    name, id
-            { "Meshes",  (int)eApexLegendsLumps::MESHES },
+            //               name,                                         id
+            {            "Meshes",             (int)eApexLegendsLumps::MESHES },
+            { "Lightmap data sky",  (int)eApexLegendsLumps::LIGHTMAP_DATA_SKY },
         };
 }
