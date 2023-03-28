@@ -106,10 +106,62 @@ void CTitanfallBsp::DrawWindow_Meshes() {
     ImGui::EndTable();
 }
 
+void CTitanfallBsp::DrawWindow_LightmapHeaders() {
+    ImGui::Text( "Count: %i", this->m_lmpLightmapHeaders.size() );
+
+    ImGui::Separator();
+
+    std::size_t offset = 0;
+
+    ImGui::BeginTable("Meshes", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg );
+    ImGui::TableSetupColumn( "Field" );
+    ImGui::TableSetupColumn( "Value" );
+    ImGui::TableHeadersRow();
+
+    for( std::size_t i = 0; i < this->m_lmpLightmapHeaders.size(); i++ ) {
+        Titanfall::LightmapHeader_t &header = this->m_lmpLightmapHeaders[i];
+
+        ImGui::TableNextColumn();
+        if( ImGui::TreeNode(fmt::to_string(i).c_str()) ) {
+            ImGui::TableNextColumn();
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("type");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", header.type);
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("width");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", header.width);
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("height");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", header.height);
+
+            ImGui::TreePop();
+        } else {
+            ImGui::TableNextColumn();
+        }
+
+        offset += header.width + header.height;
+        ImGui::TableNextRow();
+    }
+
+    ImGui::EndTable();
+}
+
 void CTitanfallBsp::DrawLumpInspectWindow( int index ) {
     switch( index ) {
         case (int)eTitanfallLumps::MESHES:
-            DrawWindow_Meshes();
+            CTitanfallBsp::DrawWindow_Meshes();
+            break;
+        case (int)eTitanfallLumps::LIGHTMAP_HEADERS:
+            CTitanfallBsp::DrawWindow_LightmapHeaders();
             break;
     }
 }

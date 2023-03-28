@@ -100,7 +100,7 @@ std::vector<LumpDef_t> CApexLegendsBsp::GetLumps() {
                 {                          "Meshes", m_header.lumps[ 80].length,       0,        0,            -1,       true },
                 {                     "Mesh Bounds", m_header.lumps[ 81].length,       0,        0,            -1,      false },
                 {                   "Material Sort", m_header.lumps[ 82].length,       0,        0,            -1,      false },
-                {                "Lightmap Headers", m_header.lumps[ 83].length,       0,        0,            -1,      false },
+                {                "Lightmap Headers", m_header.lumps[ 83].length,       0,        0,            -1,       true },
                 {                          "Unused", m_header.lumps[ 84].length,       0,       -1,            -1,      false },
                 {                    "Tweak Lights", m_header.lumps[ 85].length,       0,        0,            -1,      false },
                 {                          "Unused", m_header.lumps[ 86].length,       0,       -1,            -1,      false },

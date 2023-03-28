@@ -4,6 +4,7 @@
 */
 #pragma once
 
+#include "../titanfall/titanfall_structs.hpp"
 #include "../../../utils/math.hpp"
 #undef PLANES
 namespace ApexLegends {
