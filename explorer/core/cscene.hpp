@@ -26,7 +26,7 @@ class CScene {
         std::unique_ptr<IBsp>    m_pBsp;
         std::shared_ptr<CCamera> m_pCamera;
 
-        bool m_abOpenWindows[128];
+        bool m_abOpenWindows[128] = {0};
 
         // Settings
         bool m_bCullBackFaces;

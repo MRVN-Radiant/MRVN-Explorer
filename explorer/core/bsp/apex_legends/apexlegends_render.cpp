@@ -21,24 +21,28 @@ void CApexLegendsBsp::SetRendererMeshes( int id ) {
         RenderVertex_t &rv = g_vecRenderVertices.emplace_back();
         rv.position = this->m_lmpVertices[vtx.vertexIndex];
         rv.normal = this->m_lmpVertexNormals[vtx.normalIndex];
+        rv.UV = vtx.uv0;
     }
     // Unlit
     for( ApexLegends::VertexUnlit_t &vtx : this->m_lmpUnlitVertices ) {
         RenderVertex_t &rv = g_vecRenderVertices.emplace_back();
         rv.position = this->m_lmpVertices[vtx.vertexIndex];
         rv.normal = this->m_lmpVertexNormals[vtx.normalIndex];
+        rv.UV = vtx.uv0;
     }
     // Lit Bump
     for( ApexLegends::VertexLitBump_t &vtx : this->m_lmpLitBumpVertices ) {
         RenderVertex_t &rv = g_vecRenderVertices.emplace_back();
         rv.position = this->m_lmpVertices[vtx.vertexIndex];
         rv.normal = this->m_lmpVertexNormals[vtx.normalIndex];
+        rv.UV = vtx.uv0;
     }
     // Unlit TS
     for( ApexLegends::VertexUnlitTS_t &vtx : this->m_lmpUnlitTSVertices ) {
         RenderVertex_t &rv = g_vecRenderVertices.emplace_back();
         rv.position = this->m_lmpVertices[vtx.vertexIndex];
         rv.normal = this->m_lmpVertexNormals[vtx.normalIndex];
+        rv.UV = vtx.uv0;
     }
 
     for( ApexLegends::Mesh_t &tfMesh : this->m_lmpMeshes ) {
@@ -48,6 +52,7 @@ void CApexLegendsBsp::SetRendererMeshes( int id ) {
         for( uint16_t idx = 0; idx < tfMesh.triCount * 3; idx++ ) {
             RenderIndex_t triOffset;
             triOffset = this->m_lmpMaterialSorts[tfMesh.materialOffset].vertexOffset;
+            rdMesh.pMaterial = CMaterial::AllocateNewMaterial();
 
             if( HAS_FLAG(tfMesh.flags, S_VERTEX_UNLIT) ) {
                 triOffset += this->m_lmpLitFlatVertices.size();

@@ -4,15 +4,18 @@
 */
 #version 330
 
-layout (location = 0) in vec3 vPos;
-layout (location = 1) in vec3 vNormal;
+layout (location = 0) in vec3 layPos;
+layout (location = 1) in vec3 layNormal;
+layout (location = 2) in vec2 layUV;
 
 uniform mat4 transform;
 
-out vec3 normal;
+out vec3 shrNormal;
+out vec2 shrUV;
 
 void main()
 {
-    gl_Position = transform * vec4( vPos, 1.0f );
-    normal = vNormal;
+    gl_Position = transform * vec4( layPos, 1.0f );
+    shrNormal = layNormal;
+    shrUV = layUV;
 }

@@ -41,14 +41,6 @@ void CRenderer::Render(GLFWwindow *window) {
         glUniformMatrix4fv( transLoc, 1, GL_FALSE, glm::value_ptr( g_pCamera->GetViewMatrix() ) );
     }
 
-    glm::fvec3 colors[6] = {
-        glm::fvec3(0.5f, 0.9f, 0.9f),
-        glm::fvec3(0.6f, 0.9f, 0.5f),
-        glm::fvec3(0.8f, 0.5f, 0.9f),
-        glm::fvec3(0.9f, 0.6f, 0.5f),
-        glm::fvec3(0.7f, 0.8f, 0.3f),
-        glm::fvec3(0.6f, 0.3f, 0.8f)
-    };
 
     for( std::size_t i = 0; i < g_vecRenderMehses.size(); i++ ) {
         RenderMesh_t &rm = g_vecRenderMehses[i];
@@ -56,9 +48,12 @@ void CRenderer::Render(GLFWwindow *window) {
         if( !(rm.flags & g_iRenderFlags) )
             continue;
 
-        glm::fvec3 color = colors[i % 6];
-        unsigned int colorLoc = glGetUniformLocation( g_vecpShaders[0]->GetID(), "base" );
-        glUniform3fv( colorLoc, 1, glm::value_ptr( color ) );
+        glActiveTexture(GL_TEXTURE0);
+        unsigned int texLoc = glGetUniformLocation( g_vecpShaders[0]->GetID(), "CurrentTexture" );
+        glUniform1i( texLoc, 0 );
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+        rm.pMaterial->Use();
 
         glDrawElements( GL_TRIANGLES, rm.triCount, GL_UNSIGNED_INT, (void*)(sizeof(GLuint) * rm.triStart ) );
     }
@@ -80,6 +75,8 @@ void CRenderer::Update() {
     glEnableVertexAttribArray( 0 );
     glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( RenderVertex_t ), (void*)offsetof( RenderVertex_t, normal ) );
     glEnableVertexAttribArray( 1 );
+    glVertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof( RenderVertex_t ), (void*)offsetof( RenderVertex_t, UV ) );
+    glEnableVertexAttribArray( 2 );
 }
 
 void CRenderer::Clear() {
