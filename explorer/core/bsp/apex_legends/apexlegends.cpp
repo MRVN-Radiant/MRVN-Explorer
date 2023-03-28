@@ -153,5 +153,6 @@ std::vector<DrawableType_t> CApexLegendsBsp::GetDrawableTypes() {
             //               name,                                         id
             {            "Meshes",             (int)eApexLegendsLumps::MESHES },
             { "Lightmap data sky",  (int)eApexLegendsLumps::LIGHTMAP_DATA_SKY },
+            {         "BVH Nodes",          (int)eApexLegendsLumps::BVH_NODES },
         };
 }

@@ -10,6 +10,9 @@ void CApexLegendsBsp::SetRendererMeshes( int id ) {
     LOG_OPENGL_INFO("CApexLegendsBsp::SetRendererMeshes: Set to {}", id)
 
     switch( id ) {
+        case (int)eApexLegendsLumps::BVH_NODES:
+            CApexLegendsBsp::SetRendererMeshes_BVHNodes();
+            break;
         case (int)eApexLegendsLumps::MESHES:
             CApexLegendsBsp::SetRendererMeshes_Meshes( false );
             break;
@@ -19,13 +22,33 @@ void CApexLegendsBsp::SetRendererMeshes( int id ) {
     }
 }
 
+void CApexLegendsBsp::SetRendererMeshes_BVHNodes() {
+    for( ApexLegends::BVHNode_t &node : this->m_lmpBVHNodes ) {
+        AABB<int16_t> aabb;
+
+        aabb.mins.vec[0] = node.minsX[0]; aabb.mins.vec[1] = node.minsY[0]; aabb.mins.vec[2] = node.minsZ[0];
+        aabb.maxs.vec[0] = node.maxsX[0]; aabb.maxs.vec[1] = node.maxsY[0]; aabb.maxs.vec[2] = node.maxsZ[0];
+        Renderer_AddAABBToRenderPool( aabb );
+
+        aabb.mins.vec[0] = node.minsX[1]; aabb.mins.vec[1] = node.minsY[1]; aabb.mins.vec[2] = node.minsZ[1];
+        aabb.maxs.vec[0] = node.maxsX[1]; aabb.maxs.vec[1] = node.maxsY[1]; aabb.maxs.vec[2] = node.maxsZ[1];
+        Renderer_AddAABBToRenderPool( aabb );
+
+        aabb.mins.vec[0] = node.minsX[2]; aabb.mins.vec[1] = node.minsY[2]; aabb.mins.vec[2] = node.minsZ[2];
+        aabb.maxs.vec[0] = node.maxsX[2]; aabb.maxs.vec[1] = node.maxsY[2]; aabb.maxs.vec[2] = node.maxsZ[2];
+        Renderer_AddAABBToRenderPool( aabb );
+
+        aabb.mins.vec[0] = node.minsX[3]; aabb.mins.vec[1] = node.minsY[3]; aabb.mins.vec[2] = node.minsZ[3];
+        aabb.maxs.vec[0] = node.maxsX[3]; aabb.maxs.vec[1] = node.maxsY[3]; aabb.maxs.vec[2] = node.maxsZ[3];
+        Renderer_AddAABBToRenderPool( aabb );
+    }
+}
+
 void CApexLegendsBsp::SetRendererMeshes_Meshes( bool lightmaps ) {
     const int S_VERTEX_LIT_FLAT      = 0x00000000;
     const int S_VERTEX_LIT_BUMP      = 0x00000200;
     const int S_VERTEX_UNLIT         = 0x00000400;
     const int S_VERTEX_UNLIT_TS      = 0x00000600;
-
-    g_pRenderer->Clear();
 
     // Emit vertices
     // Lit Flat

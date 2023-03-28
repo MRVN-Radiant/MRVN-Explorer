@@ -8,6 +8,30 @@
 #include "../../../utils/math.hpp"
 #undef PLANES
 namespace ApexLegends {
+    // 0x12
+    struct BVHNode_t {
+        int16_t minsX[4];
+        int16_t minsY[4];
+        int16_t minsZ[4];
+        int16_t maxsX[4];
+        int16_t maxsY[4];
+        int16_t maxsZ[4];
+
+        int32_t cmIndex : 8;
+        int32_t index0 : 24;
+
+        int32_t padding : 8;
+        int32_t index1 : 24;
+
+        int32_t childType0 : 4;
+        int32_t childType1 : 4;
+        int32_t index2 : 24;
+
+        int32_t childType2 : 4;
+        int32_t childType3 : 4;
+        int32_t index3 : 24;
+    };
+
     struct VertexUnlit_t {
         uint32_t  vertexIndex;
         uint32_t  normalIndex;

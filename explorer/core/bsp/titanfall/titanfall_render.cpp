@@ -26,8 +26,6 @@ void CTitanfallBsp::SetRendererMeshes_Meshes( bool lightmaps ) {
     const int S_VERTEX_UNLIT         = 0x00000400;
     const int S_VERTEX_UNLIT_TS      = 0x00000600;
 
-    g_pRenderer->Clear();
-
     // Emit vertices
     // Lit Flat
     for( Titanfall::VertexLitFlat_t &vtx : this->m_lmpLitFlatVertices ) {

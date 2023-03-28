@@ -203,6 +203,7 @@ void CScene::DrawViewportOptions() {
 }
 
 void CScene::UpdateRenderMeshes( int id ) {
+    g_pRenderer->Clear();
     m_pBsp->SetRendererMeshes( id );
     g_pRenderer->Update();
     g_pCamera = this->m_pCamera;

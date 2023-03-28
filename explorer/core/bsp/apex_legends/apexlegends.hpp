@@ -16,6 +16,7 @@
 class CApexLegendsBsp : public IBsp {
     private:
         std::vector<Vector3f>                     m_lmpVertices;
+        std::vector<ApexLegends::BVHNode_t>       m_lmpBVHNodes;
         std::vector<Vector3f>                     m_lmpVertexNormals;
         std::vector<ApexLegends::VertexUnlit_t>   m_lmpUnlitVertices;
         std::vector<ApexLegends::VertexLitFlat_t> m_lmpLitFlatVertices;
@@ -27,6 +28,7 @@ class CApexLegendsBsp : public IBsp {
         std::vector<Titanfall::LightmapHeader_t>  m_lmpLightmapHeaders;
         std::vector<uint8_t>                      m_lmpLightmapDataSky;
 
+        void SetRendererMeshes_BVHNodes();
         void SetRendererMeshes_Meshes( bool lightmaps );
 
         void DrawWindow_Meshes();
@@ -34,6 +36,7 @@ class CApexLegendsBsp : public IBsp {
     public:
         CApexLegendsBsp(const char *filename) : IBsp(filename) { // g++ wont let me define this in the .cpp ???
             CopyLump( (int)eApexLegendsLumps::VERTICES,          m_lmpVertices );
+            CopyLump( (int)eApexLegendsLumps::BVH_NODES,         m_lmpBVHNodes );
             CopyLump( (int)eApexLegendsLumps::VERTEX_NORMALS,    m_lmpVertexNormals );
             CopyLump( (int)eApexLegendsLumps::VERTEX_UNLIT,      m_lmpUnlitVertices );
             CopyLump( (int)eApexLegendsLumps::VERTEX_LIT_FLAT,   m_lmpLitFlatVertices );

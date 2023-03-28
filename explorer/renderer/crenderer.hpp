@@ -37,7 +37,6 @@ class CRenderer {
         void Clear();
 };
 
-
 struct RenderVertex_t {
     Vector3f position;
     Vector3f normal;
@@ -61,3 +60,97 @@ inline std::unique_ptr<CRenderer> g_pRenderer;
 inline std::vector<RenderMesh_t> g_vecRenderMehses;
 inline std::vector<RenderVertex_t> g_vecRenderVertices;
 inline std::vector<RenderIndex_t> g_vecRenderIndices;
+
+template<typename T>
+void Renderer_AddAABBToRenderPool( AABB<T> aabb ) {
+    RenderMesh_t &mesh = g_vecRenderMehses.emplace_back();
+    mesh.triStart = g_vecRenderIndices.size();
+    mesh.flags = -1;
+    mesh.pMaterial = CMaterial::AllocateNewMaterial();
+
+    RenderIndex_t offset = g_vecRenderVertices.size();
+    
+    RenderVertex_t vertex;
+    vertex.position = Vector3f ( aabb.mins.x(), aabb.mins.y(), aabb.mins.z() );
+    vertex.normal = Vector3f ( -0.5, -0.5, -0.5 );
+    g_vecRenderVertices.push_back( vertex );
+
+    vertex.position = Vector3f ( aabb.mins.x(), aabb.maxs.y(), aabb.mins.z() );
+    vertex.normal = Vector3f ( -0.5, 0.5, -0.5 );
+    g_vecRenderVertices.push_back( vertex );
+
+    vertex.position = Vector3f ( aabb.maxs.x(), aabb.maxs.y(), aabb.mins.z() );
+    vertex.normal = Vector3f ( 0.5, 0.5, -0.5 );
+    g_vecRenderVertices.push_back( vertex );
+
+    vertex.position = Vector3f ( aabb.maxs.x(), aabb.mins.y(), aabb.mins.z() );
+    vertex.normal = Vector3f ( 0.5, -0.5, -0.5 );
+    g_vecRenderVertices.push_back( vertex );
+
+    vertex.position = Vector3f ( aabb.mins.x(), aabb.mins.y(), aabb.maxs.z() );
+    vertex.normal = Vector3f ( -0.5, -0.5, 0.5 );
+    g_vecRenderVertices.push_back( vertex );
+
+    vertex.position = Vector3f ( aabb.mins.x(), aabb.maxs.y(), aabb.maxs.z() );
+    vertex.normal = Vector3f ( -0.5, 0.5, 0.5 );
+    g_vecRenderVertices.push_back( vertex );
+
+    vertex.position = Vector3f ( aabb.maxs.x(), aabb.maxs.y(), aabb.maxs.z() );
+    vertex.normal = Vector3f ( 0.5, 0.5, 0.5 );
+    g_vecRenderVertices.push_back( vertex );
+
+    vertex.position = Vector3f ( aabb.maxs.x(), aabb.mins.y(), aabb.maxs.z() );
+    vertex.normal = Vector3f ( 0.5, -0.5, 0.5 );
+    g_vecRenderVertices.push_back( vertex );
+
+    // Indices
+    g_vecRenderIndices.push_back( offset + 3 );
+    g_vecRenderIndices.push_back( offset + 1 );
+    g_vecRenderIndices.push_back( offset + 0 );
+
+    g_vecRenderIndices.push_back( offset + 3 );
+    g_vecRenderIndices.push_back( offset + 2 );
+    g_vecRenderIndices.push_back( offset + 1 );
+
+    g_vecRenderIndices.push_back( offset + 4 );
+    g_vecRenderIndices.push_back( offset + 5 );
+    g_vecRenderIndices.push_back( offset + 7 );
+
+    g_vecRenderIndices.push_back( offset + 5 );
+    g_vecRenderIndices.push_back( offset + 6 );
+    g_vecRenderIndices.push_back( offset + 7 );
+
+    g_vecRenderIndices.push_back( offset + 0 );
+    g_vecRenderIndices.push_back( offset + 1 );
+    g_vecRenderIndices.push_back( offset + 4 );
+
+    g_vecRenderIndices.push_back( offset + 1 );
+    g_vecRenderIndices.push_back( offset + 5 );
+    g_vecRenderIndices.push_back( offset + 4 );
+
+    g_vecRenderIndices.push_back( offset + 1 );
+    g_vecRenderIndices.push_back( offset + 2 );
+    g_vecRenderIndices.push_back( offset + 5 );
+
+    g_vecRenderIndices.push_back( offset + 2 );
+    g_vecRenderIndices.push_back( offset + 6 );
+    g_vecRenderIndices.push_back( offset + 5 );
+
+    g_vecRenderIndices.push_back( offset + 2 );
+    g_vecRenderIndices.push_back( offset + 3 );
+    g_vecRenderIndices.push_back( offset + 6 );
+
+    g_vecRenderIndices.push_back( offset + 3 );
+    g_vecRenderIndices.push_back( offset + 7 );
+    g_vecRenderIndices.push_back( offset + 6 );
+
+    g_vecRenderIndices.push_back( offset + 3 );
+    g_vecRenderIndices.push_back( offset + 0 );
+    g_vecRenderIndices.push_back( offset + 7 );
+
+    g_vecRenderIndices.push_back( offset + 0 );
+    g_vecRenderIndices.push_back( offset + 4 );
+    g_vecRenderIndices.push_back( offset + 7 );
+
+    mesh.triCount = g_vecRenderIndices.size() - mesh.triStart;
+}
