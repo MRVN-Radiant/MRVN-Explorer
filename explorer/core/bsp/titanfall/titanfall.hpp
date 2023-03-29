@@ -25,11 +25,14 @@ class CTitanfallBsp : public IBsp {
         std::vector<Titanfall::MaterialSort_t>   m_lmpMaterialSorts;
         std::vector<Titanfall::LightmapHeader_t> m_lmpLightmapHeaders;
         std::vector<uint8_t>                     m_lmpLightmapDataSky;
+        std::vector<Titanfall::CMGrid_t>         m_lmpCMGrid;
 
         void SetRendererMeshes_Meshes( bool lightmaps );
+        void SetRendererMeshes_CMGrid();
 
         void DrawWindow_Meshes();
         void DrawWindow_LightmapHeaders();
+        void DrawWindow_CMGrid();
     public:
         CTitanfallBsp(const char *filename) : IBsp(filename) { // g++ wont let me define this in the .cpp ???
             CopyLump( (int)eTitanfallLumps::VERTICES,          m_lmpVertices );
@@ -43,6 +46,7 @@ class CTitanfallBsp : public IBsp {
             CopyLump( (int)eTitanfallLumps::MATERIAL_SORT,     m_lmpMaterialSorts );
             CopyLump( (int)eTitanfallLumps::LIGHTMAP_HEADERS,  m_lmpLightmapHeaders );
             CopyLump( (int)eTitanfallLumps::LIGHTMAP_DATA_SKY, m_lmpLightmapDataSky );
+            CopyLump( (int)eTitanfallLumps::CM_GRID,           m_lmpCMGrid );
             CloseFile();
 
             // Create materials for lightmap headers

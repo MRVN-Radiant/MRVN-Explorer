@@ -76,6 +76,17 @@ namespace Titanfall {
         int16_t width;
         int16_t height;
     };
+
+    // 0x55
+    struct CMGrid_t {
+        float     scale;
+        int32_t   xOffset;
+        int32_t   yOffset;
+        int32_t   xCount;
+        int32_t   yCount;
+        int32_t   straddleGroupCount;
+        uint32_t  brushSidePlaneOffset;
+    };
 }
 
 enum class eTitanfallLumps : int {

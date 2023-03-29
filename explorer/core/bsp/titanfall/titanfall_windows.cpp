@@ -167,6 +167,60 @@ void CTitanfallBsp::DrawWindow_LightmapHeaders() {
     ImGui::EndTable();
 }
 
+void CTitanfallBsp::DrawWindow_CMGrid() {
+    ImGui::BeginTable("CM Grid", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg );
+    ImGui::TableSetupColumn( "Field" );
+    ImGui::TableSetupColumn( "Value" );
+    ImGui::TableHeadersRow();
+
+    ImGui::TableNextColumn();
+    ImGui::TableNextColumn();
+    ImGui::TableNextRow();
+
+    ImGui::TableNextColumn();
+    ImGui::Text("scale");
+    ImGui::TableNextColumn();
+    ImGui::Text("%f", this->m_lmpCMGrid[0].scale);
+    ImGui::TableNextRow();
+
+    ImGui::TableNextColumn();
+    ImGui::Text("xOffset");
+    ImGui::TableNextColumn();
+    ImGui::Text("%i", this->m_lmpCMGrid[0].xOffset);
+    ImGui::TableNextRow();
+
+    ImGui::TableNextColumn();
+    ImGui::Text("yOffset");
+    ImGui::TableNextColumn();
+    ImGui::Text("%i", this->m_lmpCMGrid[0].yOffset);
+    ImGui::TableNextRow();
+
+    ImGui::TableNextColumn();
+    ImGui::Text("xCount");
+    ImGui::TableNextColumn();
+    ImGui::Text("%i", this->m_lmpCMGrid[0].xCount);
+    ImGui::TableNextRow();
+
+    ImGui::TableNextColumn();
+    ImGui::Text("yCount");
+    ImGui::TableNextColumn();
+    ImGui::Text("%i", this->m_lmpCMGrid[0].yCount);
+    ImGui::TableNextRow();
+
+    ImGui::TableNextColumn();
+    ImGui::Text("straddleGroupCount");
+    ImGui::TableNextColumn();
+    ImGui::Text("%i", this->m_lmpCMGrid[0].straddleGroupCount);
+    ImGui::TableNextRow();
+
+    ImGui::TableNextColumn();
+    ImGui::Text("brushSidePlaneOffset");
+    ImGui::TableNextColumn();
+    ImGui::Text("%i", this->m_lmpCMGrid[0].brushSidePlaneOffset);
+    
+    ImGui::EndTable();
+}
+
 void CTitanfallBsp::DrawLumpInspectWindow( int index ) {
     switch( index ) {
         case (int)eTitanfallLumps::MESHES:
@@ -174,6 +228,9 @@ void CTitanfallBsp::DrawLumpInspectWindow( int index ) {
             break;
         case (int)eTitanfallLumps::LIGHTMAP_HEADERS:
             CTitanfallBsp::DrawWindow_LightmapHeaders();
+            break;
+        case (int)eTitanfallLumps::CM_GRID:
+            CTitanfallBsp::DrawWindow_CMGrid();
             break;
     }
 }

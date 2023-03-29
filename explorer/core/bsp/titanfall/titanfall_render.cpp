@@ -17,6 +17,26 @@ void CTitanfallBsp::SetRendererMeshes( int id ) {
         case (int)eTitanfallLumps::LIGHTMAP_DATA_SKY:
             CTitanfallBsp::SetRendererMeshes_Meshes( true );
             break;
+        case (int)eTitanfallLumps::CM_GRID:
+            CTitanfallBsp::SetRendererMeshes_CMGrid();
+            break;
+    }
+}
+
+void CTitanfallBsp::SetRendererMeshes_CMGrid() {
+    for( int x = 0; x < this->m_lmpCMGrid[0].xCount; x++ ) {
+        for( int y = 0; y < this->m_lmpCMGrid[0].yCount; y++ ) {
+            AABB<float> aabb;
+            aabb.mins.vec[0] = ( this->m_lmpCMGrid[0].xOffset + x ) * this->m_lmpCMGrid[0].scale;
+            aabb.mins.vec[1] = ( this->m_lmpCMGrid[0].yOffset + y ) * this->m_lmpCMGrid[0].scale;
+            aabb.mins.vec[2] = -128.0f;
+
+            aabb.maxs.vec[0] = ( this->m_lmpCMGrid[0].xOffset + x + 1 ) * this->m_lmpCMGrid[0].scale;
+            aabb.maxs.vec[1] = ( this->m_lmpCMGrid[0].yOffset + y + 1 ) * this->m_lmpCMGrid[0].scale;
+            aabb.maxs.vec[2] = 128.0f;
+
+            Renderer_AddAABBToRenderPool( aabb );
+        }
     }
 }
 

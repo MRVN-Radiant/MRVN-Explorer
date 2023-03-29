@@ -102,7 +102,7 @@ std::vector<LumpDef_t> CTitanfallBsp::GetLumps() {
                 {                   "Material Sort", m_header.lumps[ 82].length,       0,        0,            -1,      false },
                 {                "Lightmap Headers", m_header.lumps[ 83].length,       0,        0,            -1,       true },
                 {                          "Unused", m_header.lumps[ 84].length,       0,        0,            -1,      false },
-                {                         "CM Grid", m_header.lumps[ 85].length,       0,        0,            -1,      false },
+                {                         "CM Grid", m_header.lumps[ 85].length,       0,        0,            -1,       true },
                 {                   "CM Grid Cells", m_header.lumps[ 86].length,       0,        0,            -1,      false },
                 {                     "CM Geo Sets", m_header.lumps[ 87].length,       0,        0,            -1,      false },
                 {               "CM Geo Set Bounds", m_header.lumps[ 88].length,       0,        0,            -1,      false },
@@ -153,5 +153,6 @@ std::vector<DrawableType_t> CTitanfallBsp::GetDrawableTypes() {
         //               name,                                       id
         {            "Meshes",             (int)eTitanfallLumps::MESHES },
         { "Lightmap data sky",  (int)eTitanfallLumps::LIGHTMAP_DATA_SKY },
+        {           "CM Grid",            (int)eTitanfallLumps::CM_GRID },
     };
 }
