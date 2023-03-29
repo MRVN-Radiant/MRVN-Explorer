@@ -87,6 +87,32 @@ namespace Titanfall {
         int32_t   straddleGroupCount;
         uint32_t  brushSidePlaneOffset;
     };
+
+    // 0x57
+    struct CMGeoSet_t {
+        uint16_t  straddleGroup;
+        uint16_t  primitiveCount;
+        uint32_t  uniqueContentsIndex : 8;
+        uint32_t  collisionShapeIndex : 16;
+        uint32_t  collisionShapeType : 8;
+    };
+
+    // 0x59
+    struct CMPrimitive_t {
+        uint32_t  uniqueContentsIndex : 8;
+        uint32_t  collisionShapeIndex : 16;
+        uint32_t  collisionShapeType : 8;
+    };
+
+    // 0x58 & 0x5A
+    struct CMBound_t {
+        Vector3<int16_t>  origin;
+        uint8_t           unknown0;
+        uint8_t           unknown1;
+        Vector3<int16_t>  extents;
+        uint8_t           unknown2;
+        uint8_t           unknown3;
+    };
 }
 
 enum class eTitanfallLumps : int {

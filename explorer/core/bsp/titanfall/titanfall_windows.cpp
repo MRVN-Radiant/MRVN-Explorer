@@ -113,7 +113,7 @@ void CTitanfallBsp::DrawWindow_LightmapHeaders() {
 
     std::size_t offset = 0;
 
-    ImGui::BeginTable("Meshes", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg );
+    ImGui::BeginTable("Lightmap headers", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg );
     ImGui::TableSetupColumn( "Field" );
     ImGui::TableSetupColumn( "Value" );
     ImGui::TableHeadersRow();
@@ -221,6 +221,112 @@ void CTitanfallBsp::DrawWindow_CMGrid() {
     ImGui::EndTable();
 }
 
+void CTitanfallBsp::DrawWindow_CMGeoSets() {
+    ImGui::Text( "Count: %i", this->m_lmpGeoSets.size() );
+
+    ImGui::Separator();
+
+    ImGui::BeginTable("Geo Sets", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg );
+    ImGui::TableSetupColumn( "Field" );
+    ImGui::TableSetupColumn( "Value" );
+    ImGui::TableHeadersRow();
+
+    for( std::size_t i = 0; i < this->m_lmpGeoSets.size(); i++ ) {
+        Titanfall::CMGeoSet_t &set = this->m_lmpGeoSets[i];
+
+        ImGui::TableNextColumn();
+        if( ImGui::TreeNode(fmt::to_string(i).c_str()) ) {
+            ImGui::TableNextColumn();
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("straddleGroup");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", set.straddleGroup);
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("primitiveCount");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", set.primitiveCount);
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("uniqueContentsIndex");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", set.uniqueContentsIndex);
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("collisionShapeIndex");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", set.collisionShapeIndex);
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("collisionShapeType");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", set.collisionShapeType);
+            ImGui::TableNextColumn();
+
+            ImGui::TreePop();
+        } else {
+            ImGui::TableNextColumn();
+        }
+
+        ImGui::TableNextRow();
+    }
+
+    ImGui::EndTable();
+}
+
+void CTitanfallBsp::DrawWindow_CMPrimitives() {
+    ImGui::Text( "Count: %i", this->m_lmpPrimitives.size() );
+
+    ImGui::Separator();
+
+    ImGui::BeginTable("Geo Sets", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg );
+    ImGui::TableSetupColumn( "Field" );
+    ImGui::TableSetupColumn( "Value" );
+    ImGui::TableHeadersRow();
+
+    for( std::size_t i = 0; i < this->m_lmpPrimitives.size(); i++ ) {
+        Titanfall::CMPrimitive_t &set = this->m_lmpPrimitives[i];
+
+        ImGui::TableNextColumn();
+        if( ImGui::TreeNode(fmt::to_string(i).c_str()) ) {
+            ImGui::TableNextColumn();
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("uniqueContentsIndex");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", set.uniqueContentsIndex);
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("collisionShapeIndex");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", set.collisionShapeIndex);
+            ImGui::TableNextRow();
+
+            ImGui::TableNextColumn();
+            ImGui::Text("collisionShapeType");
+            ImGui::TableNextColumn();
+            ImGui::Text("%i", set.collisionShapeType);
+            ImGui::TableNextColumn();
+
+            ImGui::TreePop();
+        } else {
+            ImGui::TableNextColumn();
+        }
+
+        ImGui::TableNextRow();
+    }
+
+    ImGui::EndTable();
+}
+
 void CTitanfallBsp::DrawLumpInspectWindow( int index ) {
     switch( index ) {
         case (int)eTitanfallLumps::MESHES:
@@ -231,6 +337,12 @@ void CTitanfallBsp::DrawLumpInspectWindow( int index ) {
             break;
         case (int)eTitanfallLumps::CM_GRID:
             CTitanfallBsp::DrawWindow_CMGrid();
+            break;
+        case (int)eTitanfallLumps::CM_GEO_SETS:
+            CTitanfallBsp::DrawWindow_CMGeoSets();
+            break;
+        case (int)eTitanfallLumps::CM_PRIMITIVES:
+            CTitanfallBsp::DrawWindow_CMPrimitives();
             break;
     }
 }

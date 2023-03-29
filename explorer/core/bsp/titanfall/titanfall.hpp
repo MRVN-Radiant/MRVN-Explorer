@@ -26,27 +26,39 @@ class CTitanfallBsp : public IBsp {
         std::vector<Titanfall::LightmapHeader_t> m_lmpLightmapHeaders;
         std::vector<uint8_t>                     m_lmpLightmapDataSky;
         std::vector<Titanfall::CMGrid_t>         m_lmpCMGrid;
+        std::vector<Titanfall::CMGeoSet_t>       m_lmpGeoSets;
+        std::vector<Titanfall::CMBound_t>        m_lmpCMGeoBounds;
+        std::vector<Titanfall::CMPrimitive_t>    m_lmpPrimitives;
+        std::vector<Titanfall::CMBound_t>        m_lmpCMPrimitiveBounds;
 
         void SetRendererMeshes_Meshes( bool lightmaps );
         void SetRendererMeshes_CMGrid();
+        void SetRendererMeshes_CMGeoSets();
+        void SetRendererMeshes_CMPrimitives();
 
         void DrawWindow_Meshes();
         void DrawWindow_LightmapHeaders();
         void DrawWindow_CMGrid();
+        void DrawWindow_CMGeoSets();
+        void DrawWindow_CMPrimitives();
     public:
         CTitanfallBsp(const char *filename) : IBsp(filename) { // g++ wont let me define this in the .cpp ???
-            CopyLump( (int)eTitanfallLumps::VERTICES,          m_lmpVertices );
-            CopyLump( (int)eTitanfallLumps::VERTEX_NORMALS,    m_lmpVertexNormals );
-            CopyLump( (int)eTitanfallLumps::VERTEX_UNLIT,      m_lmpUnlitVertices );
-            CopyLump( (int)eTitanfallLumps::VERTEX_LIT_FLAT,   m_lmpLitFlatVertices );
-            CopyLump( (int)eTitanfallLumps::VERTEX_LIT_BUMP,   m_lmpLitBumpVertices );
-            CopyLump( (int)eTitanfallLumps::VERTEX_UNLIT_TS,   m_lmpUnlitTSVertices );
-            CopyLump( (int)eTitanfallLumps::MESH_INDICES,      m_lmpMeshIndices );
-            CopyLump( (int)eTitanfallLumps::MESHES,            m_lmpMeshes );
-            CopyLump( (int)eTitanfallLumps::MATERIAL_SORT,     m_lmpMaterialSorts );
-            CopyLump( (int)eTitanfallLumps::LIGHTMAP_HEADERS,  m_lmpLightmapHeaders );
-            CopyLump( (int)eTitanfallLumps::LIGHTMAP_DATA_SKY, m_lmpLightmapDataSky );
-            CopyLump( (int)eTitanfallLumps::CM_GRID,           m_lmpCMGrid );
+            CopyLump( (int)eTitanfallLumps::VERTICES,            m_lmpVertices );
+            CopyLump( (int)eTitanfallLumps::VERTEX_NORMALS,      m_lmpVertexNormals );
+            CopyLump( (int)eTitanfallLumps::VERTEX_UNLIT,        m_lmpUnlitVertices );
+            CopyLump( (int)eTitanfallLumps::VERTEX_LIT_FLAT,     m_lmpLitFlatVertices );
+            CopyLump( (int)eTitanfallLumps::VERTEX_LIT_BUMP,     m_lmpLitBumpVertices );
+            CopyLump( (int)eTitanfallLumps::VERTEX_UNLIT_TS,     m_lmpUnlitTSVertices );
+            CopyLump( (int)eTitanfallLumps::MESH_INDICES,        m_lmpMeshIndices );
+            CopyLump( (int)eTitanfallLumps::MESHES,              m_lmpMeshes );
+            CopyLump( (int)eTitanfallLumps::MATERIAL_SORT,       m_lmpMaterialSorts );
+            CopyLump( (int)eTitanfallLumps::LIGHTMAP_HEADERS,    m_lmpLightmapHeaders );
+            CopyLump( (int)eTitanfallLumps::LIGHTMAP_DATA_SKY,   m_lmpLightmapDataSky );
+            CopyLump( (int)eTitanfallLumps::CM_GRID,             m_lmpCMGrid );
+            CopyLump( (int)eTitanfallLumps::CM_GEO_SETS,         m_lmpGeoSets );
+            CopyLump( (int)eTitanfallLumps::CM_GEO_SET_BOUNDS,   m_lmpCMGeoBounds );
+            CopyLump( (int)eTitanfallLumps::CM_PRIMITIVES,       m_lmpPrimitives );
+            CopyLump( (int)eTitanfallLumps::CM_PRIMITIVE_BOUNDS, m_lmpCMPrimitiveBounds );
             CloseFile();
 
             // Create materials for lightmap headers

@@ -20,6 +20,44 @@ void CTitanfallBsp::SetRendererMeshes( int id ) {
         case (int)eTitanfallLumps::CM_GRID:
             CTitanfallBsp::SetRendererMeshes_CMGrid();
             break;
+        case (int)eTitanfallLumps::CM_GEO_SET_BOUNDS:
+            CTitanfallBsp::SetRendererMeshes_CMGeoSets();
+            break;
+        case (int)eTitanfallLumps::CM_PRIMITIVE_BOUNDS:
+            CTitanfallBsp::SetRendererMeshes_CMPrimitives();
+            break;
+    }
+}
+
+void CTitanfallBsp::SetRendererMeshes_CMGeoSets() {
+    for( Titanfall::CMBound_t &set : this->m_lmpCMGeoBounds ) {
+        AABB<int16_t> aabb;
+
+        aabb.mins.vec[0] = set.origin.x() - set.extents.x();
+        aabb.mins.vec[1] = set.origin.y() - set.extents.y();
+        aabb.mins.vec[2] = set.origin.z() - set.extents.z();
+
+        aabb.maxs.vec[0] = set.origin.x() + set.extents.x();
+        aabb.maxs.vec[1] = set.origin.y() + set.extents.y();
+        aabb.maxs.vec[2] = set.origin.z() + set.extents.z();
+
+        Renderer_AddAABBToRenderPool( aabb );
+    }
+}
+
+void CTitanfallBsp::SetRendererMeshes_CMPrimitives() {
+    for( Titanfall::CMBound_t &set : this->m_lmpCMPrimitiveBounds ) {
+        AABB<int16_t> aabb;
+
+        aabb.mins.vec[0] = set.origin.x() - set.extents.x();
+        aabb.mins.vec[1] = set.origin.y() - set.extents.y();
+        aabb.mins.vec[2] = set.origin.z() - set.extents.z();
+
+        aabb.maxs.vec[0] = set.origin.x() + set.extents.x();
+        aabb.maxs.vec[1] = set.origin.y() + set.extents.y();
+        aabb.maxs.vec[2] = set.origin.z() + set.extents.z();
+
+        Renderer_AddAABBToRenderPool( aabb );
     }
 }
 

@@ -104,9 +104,9 @@ std::vector<LumpDef_t> CTitanfallBsp::GetLumps() {
                 {                          "Unused", m_header.lumps[ 84].length,       0,        0,            -1,      false },
                 {                         "CM Grid", m_header.lumps[ 85].length,       0,        0,            -1,       true },
                 {                   "CM Grid Cells", m_header.lumps[ 86].length,       0,        0,            -1,      false },
-                {                     "CM Geo Sets", m_header.lumps[ 87].length,       0,        0,            -1,      false },
+                {                     "CM Geo Sets", m_header.lumps[ 87].length,       0,        0,            -1,       true },
                 {               "CM Geo Set Bounds", m_header.lumps[ 88].length,       0,        0,            -1,      false },
-                {                   "CM Primitives", m_header.lumps[ 89].length,       0,        0,            -1,      false },
+                {                   "CM Primitives", m_header.lumps[ 89].length,       0,        0,            -1,       true },
                 {             "CM Primitive Bounds", m_header.lumps[ 90].length,       0,        0,            -1,      false },
                 {              "CM Unique Contents", m_header.lumps[ 91].length,       0,        0,            -1,      false },
                 {                      "CM Brushes", m_header.lumps[ 92].length,       0,        0,            -1,      false },
@@ -150,9 +150,11 @@ std::vector<LumpDef_t> CTitanfallBsp::GetLumps() {
 
 std::vector<DrawableType_t> CTitanfallBsp::GetDrawableTypes() {
     return {
-        //               name,                                       id
-        {            "Meshes",             (int)eTitanfallLumps::MESHES },
-        { "Lightmap data sky",  (int)eTitanfallLumps::LIGHTMAP_DATA_SKY },
-        {           "CM Grid",            (int)eTitanfallLumps::CM_GRID },
+        //               name,                                        id
+        {            "Meshes",              (int)eTitanfallLumps::MESHES },
+        { "Lightmap data sky",   (int)eTitanfallLumps::LIGHTMAP_DATA_SKY },
+        {           "CM Grid",             (int)eTitanfallLumps::CM_GRID },
+        {        "CM GeoSets",   (int)eTitanfallLumps::CM_GEO_SET_BOUNDS },
+        {     "CM Primitives", (int)eTitanfallLumps::CM_PRIMITIVE_BOUNDS },
     };
 }
