@@ -2,7 +2,8 @@
 
 An OpenGL / ImGui respawn bsp viewer
 
-![image](https://user-images.githubusercontent.com/64418963/220383216-dcaf7e57-cd16-4ce0-a8c9-8fbaf1aa13b1.png)
+![image](https://user-images.githubusercontent.com/64418963/229067842-74185039-3221-49e7-9d52-9bf4591b88cc.png)
+![image](https://user-images.githubusercontent.com/64418963/229067977-9eac514e-3fe3-4617-8556-b19e9466e494.png)
 
 ## Compiling
 ### Getting dependencies on Windows
