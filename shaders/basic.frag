@@ -9,20 +9,19 @@ in vec2 shrUV;
 
 out vec4 outColor;
 
-
 uniform sampler2D CurrentTexture;
+
 
 void main()
 {
-	vec3 sun = vec3(0.6f, 0.4f, 0.9f);
-	vec3 v3Base = vec3(0.5f, 0.9f, 0.9f);
-	float diffuse = max( dot( shrNormal, sun ), 0.2f );
-	vec3 result = diffuse * vec3( texture(CurrentTexture, shrUV) );
-	// b!scuit gaming
-	float z = ( gl_FragCoord.z / gl_FragCoord.w );
-	z = min( z / ( 16000 ), 0.3f );
+	// Calculate diffuse lighting + texture
+	vec3 v3Sun = vec3(0.6f, 0.4f, 0.9f);
+	float diffuse = max( dot( shrNormal, v3Sun ), 0.2f );
+	vec3 v3Result = diffuse * vec3( texture(CurrentTexture, shrUV) );
 
-	// test
-	//outColor = texture(CurrentTexture, shrUV);
-	outColor = mix(vec4( result, 1.0f ), vec4(1, 1, 1, 1), z);//vec4( result, 1.0f );
+	// b!scuit gaming
+	float fFog = ( gl_FragCoord.z / gl_FragCoord.w );
+	fFog = min( fFog / ( 16000 ), 0.3f );
+
+	outColor = mix(vec4( v3Result, 1.0f ), vec4(1, 1, 1, 1), fFog);
 }
